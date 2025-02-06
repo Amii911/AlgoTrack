@@ -25,4 +25,5 @@ Build a full-stack web application that allows users to systematically track the
 ## Stretch Features (Future Enhancements)
 🚀 Multi-user Leaderboard – Compare progress with friends
 📚 AI Insights – Recommend problems based on past performance
-📅 Calendar View – Show problem-solving activity in a calendar format
+📅 Calendar View – Show problem-solving activity in a calendar format# Project Name Here
+Fill out your project details here in your README.md
