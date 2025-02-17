@@ -9,6 +9,7 @@ class Problem(db.Model, SerializerMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     problem_name = db.Column(db.String, nullable=False)
+    problem_link = db.Column(db.String, nullable=False)  # Added field for problem URL
     difficulty = db.Column(db.String, nullable=False)  # Easy, Medium, Hard
     category = db.Column(db.String, nullable=False)  # Algorithms, Graphs, etc.
     date_attempted = db.Column(db.String, nullable=False)
@@ -20,4 +21,4 @@ class Problem(db.Model, SerializerMixin):
     users = db.relationship('User', secondary=user_problems, back_populates='problems')
 
     def __repr__(self):
-        return f"<Problem id={self.id} name={self.problem_name} difficulty={self.difficulty}>"
+        return f"<Problem id={self.id} name={self.problem_name} difficulty={self.difficulty} link={self.problem_link}>"
