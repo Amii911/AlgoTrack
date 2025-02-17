@@ -10,7 +10,7 @@ class User(db.Model, SerializerMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String, nullable=False, unique=True)
-    name = db.Column(db.String, nullable=False)
+    user_name = db.Column(db.String, nullable=False)
     picture = db.Column(db.String)  # Profile picture URL
     oauth_provider = db.Column(db.String, nullable=False)  # e.g., 'google', 'github'
     oauth_id = db.Column(db.String, nullable=False, unique=True)  # Provider-specific user ID
