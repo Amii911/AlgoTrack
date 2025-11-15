@@ -2,11 +2,11 @@ from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.orm import validates
 from config import db
 
-# Association table for many-to-many relationship with problems
-from models.user_problem import user_problems
-
 class User(db.Model, SerializerMixin):
     __tablename__ = "users"
+
+    # Prevent circular serialization
+    serialize_rules = ('-user_problems.user',)
 
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String, nullable=False, unique=True)
@@ -16,8 +16,8 @@ class User(db.Model, SerializerMixin):
     oauth_id = db.Column(db.String, nullable=False, unique=True)  # Provider-specific user ID
     is_admin = db.Column(db.Boolean, default=False)
 
-    # Many-to-Many relationship with problems
-    problems = db.relationship('Problem', secondary=user_problems, back_populates='users')
+    # Relationship to UserProblem association object
+    user_problems = db.relationship('UserProblem', back_populates='user', cascade='all, delete-orphan')
 
     @validates("email")
     def validate_email(self, key, email):

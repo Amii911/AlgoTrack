@@ -13,8 +13,8 @@ class Problems(Resource):
         try:
             request_json = request.get_json()
 
-            # Validate required fields
-            required_fields = ['problem_name', 'problem_link', 'difficulty', 'category', 'date_attempted', 'status']
+            # Validate required fields for problem catalog
+            required_fields = ['problem_name', 'problem_link', 'difficulty', 'category']
             for field in required_fields:
                 if not request_json.get(field):
                     return make_response({'error': f'Missing required field: {field}'}, 400)
@@ -24,21 +24,13 @@ class Problems(Resource):
             problem_link = request_json.get('problem_link')
             difficulty = request_json.get('difficulty')
             category = request_json.get('category')
-            date_attempted = request_json.get('date_attempted')
-            status = request_json.get('status')
-            notes = request_json.get('notes')
-            num_attempts = request_json.get('num_attempts', 1)
 
-            # Create new problem instance
+            # Create new problem instance (catalog entry only)
             problem = Problem(
                 problem_name = problem_name,
                 problem_link = problem_link,
                 difficulty = difficulty,
-                category = category,
-                date_attempted = date_attempted,
-                status = status,
-                notes = notes,
-                num_attempts = num_attempts
+                category = category
             )
 
             # Add to database
@@ -83,8 +75,8 @@ class ProblemResource(Resource):
 
             request_json = request.get_json()
 
-            # Define allowed fields for update
-            allowed_fields = ['problem_name', 'problem_link', 'difficulty', 'category', 'date_attempted', 'status', 'notes', 'num_attempts']
+            # Define allowed fields for update (catalog fields only)
+            allowed_fields = ['problem_name', 'problem_link', 'difficulty', 'category']
 
             # Update the problem with new values from the request
             for key in request_json:
