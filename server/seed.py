@@ -62,6 +62,9 @@ with app.app_context():
     )
     problems.append(problem2)
 
+    db.session.add_all(problems)
+    db.session.commit()
+
     # Optionally associate user with problem (if you have a many-to-many relationship)
     # user1.problems.append(problem1)
     # db.session.commit()
@@ -70,4 +73,4 @@ with app.app_context():
 
 if __name__ == "__main__":
   with app.app_context():
-    print("Starting see...")
+    print("Starting seed...")

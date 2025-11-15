@@ -53,7 +53,10 @@ def google_auth():
 
     # Get user info from Google
     email = user_info['email']
-    picture = user_info['picture']
+    picture = user_info.get('picture')
+    user_name = user_info.get('name', email.split('@')[0])  # Use name from Google or email prefix as fallback
+    oauth_id = user_info['sub']  # Google's unique user ID
+
     session['email'] = email
     session['picture'] = picture
 
@@ -62,7 +65,13 @@ def google_auth():
 
     if not db_user:
         # If user doesn't exist, create a new one
-        db_user = User(email=email, picture=picture, oauth_provider='google')
+        db_user = User(
+            email=email,
+            user_name=user_name,
+            picture=picture,
+            oauth_provider='google',
+            oauth_id=oauth_id
+        )
         db.session.add(db_user)
         db.session.commit()
         session['user_id'] = db_user.id

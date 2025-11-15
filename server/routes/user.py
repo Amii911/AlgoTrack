@@ -10,31 +10,41 @@ class Users(Resource):
         return make_response(users, 200)
 
     def post(self):
-        request_json = request.get_json()
+        try:
+            request_json = request.get_json()
 
-        # Extract fields from the incoming request data
-        email = request_json.get('email')
-        user_name = request_json.get('user_name')
-        picture = request_json.get('picture', '')
-        oauth_provider = request_json.get('oauth_provider')
-        oauth_id = request_json.get('oauth_id')
-        is_admin = request_json.get('is_admin', False)  # Default to False if not provided
+            # Validate required fields
+            required_fields = ['email', 'user_name', 'oauth_provider', 'oauth_id']
+            for field in required_fields:
+                if not request_json.get(field):
+                    return make_response({'error': f'Missing required field: {field}'}, 400)
 
-        # Create a new user instance
-        user = User(
-            email=email,
-            user_name=user_name,
-            picture=picture,
-            oauth_provider=oauth_provider,
-            oauth_id=oauth_id,
-            is_admin=is_admin
-        )
+            # Extract fields from the incoming request data
+            email = request_json.get('email')
+            user_name = request_json.get('user_name')
+            picture = request_json.get('picture', '')
+            oauth_provider = request_json.get('oauth_provider')
+            oauth_id = request_json.get('oauth_id')
+            is_admin = request_json.get('is_admin', False)  # Default to False if not provided
 
-        # Add the user to the database
-        db.session.add(user)
-        db.session.commit()
+            # Create a new user instance
+            user = User(
+                email=email,
+                user_name=user_name,
+                picture=picture,
+                oauth_provider=oauth_provider,
+                oauth_id=oauth_id,
+                is_admin=is_admin
+            )
 
-        return make_response(user.to_dict(), 201)
+            # Add the user to the database
+            db.session.add(user)
+            db.session.commit()
+
+            return make_response(user.to_dict(), 201)
+        except Exception as e:
+            db.session.rollback()
+            return make_response({'error': str(e)}, 500)
 
 api.add_resource(Users, '/api/users')
 
@@ -48,29 +58,41 @@ class UserResource(Resource):
         return make_response(user.to_dict(), 200)
     
     def delete(self, id):
-        user = User.query.get(id)
-        if not user:
-            return make_response({'message': 'User not found'}, 404)
+        try:
+            user = User.query.get(id)
+            if not user:
+                return make_response({'message': 'User not found'}, 404)
 
-        db.session.delete(user)
-        db.session.commit()
+            db.session.delete(user)
+            db.session.commit()
 
-        return make_response({'message': 'User deleted successfully'}, 204)
+            return make_response({'message': 'User deleted successfully'}, 204)
+        except Exception as e:
+            db.session.rollback()
+            return make_response({'error': str(e)}, 500)
     
     def patch(self, id):
-        user = User.query.filter_by(id=id).first()
-        if not user:
-            return make_response({'message': 'User not found'}, 404)
+        try:
+            user = User.query.filter_by(id=id).first()
+            if not user:
+                return make_response({'message': 'User not found'}, 404)
 
-        request_json = request.get_json()
+            request_json = request.get_json()
 
-        # Update the user with new values from the request
-        for key in request_json:
-            setattr(user, key, request_json[key])
-        
-        db.session.add(user)
-        db.session.commit()
+            # Define allowed fields for update
+            allowed_fields = ['email', 'user_name', 'picture', 'is_admin']
 
-        return make_response(user.to_dict(), 200)
+            # Update the user with new values from the request
+            for key in request_json:
+                if key in allowed_fields:
+                    setattr(user, key, request_json[key])
+
+            db.session.add(user)
+            db.session.commit()
+
+            return make_response(user.to_dict(), 200)
+        except Exception as e:
+            db.session.rollback()
+            return make_response({'error': str(e)}, 500)
 
 api.add_resource(UserResource, '/api/users/<int:id>')
