@@ -1,6 +1,6 @@
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.orm import validates
-from config import db
+from config import db, bcrypt
 
 class User(db.Model, SerializerMixin):
     __tablename__ = "users"
@@ -12,8 +12,9 @@ class User(db.Model, SerializerMixin):
     email = db.Column(db.String, nullable=False, unique=True)
     user_name = db.Column(db.String, nullable=False)
     picture = db.Column(db.String)  # Profile picture URL
-    oauth_provider = db.Column(db.String, nullable=False)  # e.g., 'google', 'github'
-    oauth_id = db.Column(db.String, nullable=False, unique=True)  # Provider-specific user ID
+    password_hash = db.Column(db.String)  # For email/password users (hashed)
+    oauth_provider = db.Column(db.String)  # e.g., 'google', 'github' (optional for email users)
+    oauth_id = db.Column(db.String, unique=True)  # Provider-specific user ID (optional)
     is_admin = db.Column(db.Boolean, default=False)
 
     # Relationship to UserProblem association object
@@ -25,6 +26,16 @@ class User(db.Model, SerializerMixin):
         if "@" not in email or "." not in email:
             raise ValueError("Please provide a valid email")
         return email
+
+    def set_password(self, password):
+        """Hash and set the user's password"""
+        self.password_hash = bcrypt.generate_password_hash(password).decode('utf-8')
+
+    def check_password(self, password):
+        """Check if the provided password matches the hash"""
+        if not self.password_hash:
+            return False
+        return bcrypt.check_password_hash(self.password_hash, password)
 
     def __repr__(self):
         return f"<User id={self.id} email={self.email} provider={self.oauth_provider}>"

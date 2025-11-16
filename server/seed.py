@@ -37,6 +37,16 @@ with app.app_context():
     )
     users.append(user2)
 
+    # Email/password user (no OAuth)
+    user3 = User(
+        email = 'john@example.com',
+        user_name = 'JohnDoe',
+        picture = '',
+        is_admin = False
+    )
+    user3.set_password('password123')  # Password: password123
+    users.append(user3)
+
     db.session.add_all(users)
     db.session.commit()
 
@@ -119,7 +129,7 @@ with app.app_context():
     db.session.commit()
 
     print("Seeding completed!")
-    print(f"Created {len(users)} users, {len(problems)} problems, and {len(user_problems)} user-problem attempts.")
+    print(f"Created {len(users)} users (2 OAuth + 1 email/password), {len(problems)} problems, and {len(user_problems)} user-problem attempts.")
 
 if __name__ == "__main__":
   with app.app_context():
