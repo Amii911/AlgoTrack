@@ -133,7 +133,8 @@ const Home = () => {
 
       {showAuthModal && (
         <AuthModal
-          mode={authMode}
+          isOpen={showAuthModal}
+          initialMode={authMode}
           onClose={() => setShowAuthModal(false)}
         />
       )}

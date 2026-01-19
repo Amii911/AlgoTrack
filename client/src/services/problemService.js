@@ -11,7 +11,9 @@ export const problemService = {
    * @returns {Promise} - Array of problems
    */
   getAllProblems: async () => {
-    return await api.get('/problems');
+    const response = await api.get('/problems');
+    // Backend returns paginated response { problems: [...], page, per_page, total, pages }
+    return response.problems || response;
   },
 
   /**

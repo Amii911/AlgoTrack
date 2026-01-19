@@ -63,10 +63,14 @@ def validate_password_strength(password):
 def check_auth():
     if session.get('email'):
         user = User.query.filter_by(email=session.get('email')).first()
+        if not user:
+            return jsonify({"error": "unauthorized"}), 401
         return jsonify({
             'id': user.id,
             'email': user.email,
-            'picture': user.picture
+            'user_name': user.user_name,
+            'picture': user.picture,
+            'is_admin': user.is_admin
         }), 200
     else:
         return jsonify({"error": "unauthorized"}), 401

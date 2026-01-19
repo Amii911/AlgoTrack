@@ -33,7 +33,7 @@ const Navbar = () => {
 
           <ul className="nav-menu">
             <li>
-              <Link to="/" className="nav-link">Problems</Link>
+              <Link to="/problems" className="nav-link">Problems</Link>
             </li>
 
             {isAuthenticated ? (

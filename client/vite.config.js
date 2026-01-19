@@ -11,6 +11,21 @@ export default defineConfig({
         changeOrigin: true,
         secure: false,
       },
+      '/google': {
+        target: 'http://localhost:5555',
+        changeOrigin: true,
+        secure: false,
+      },
+      '/clear': {
+        target: 'http://localhost:5555',
+        changeOrigin: true,
+        secure: false,
+      },
+      '/revoke': {
+        target: 'http://localhost:5555',
+        changeOrigin: true,
+        secure: false,
+      },
     },
   }
 })
