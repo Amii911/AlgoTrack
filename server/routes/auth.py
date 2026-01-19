@@ -3,6 +3,7 @@ from config import app, db
 from flask import session, jsonify, redirect, url_for, request
 from authlib.integrations.flask_client import OAuth
 from models.models import User
+from sqlalchemy.exc import IntegrityError
 import requests
 import re
 
@@ -21,6 +22,41 @@ oauth.register(
     server_metadata_url=CONF_URL,
     client_kwargs={'scope': 'openid profile email'}
 )
+
+# Password validation helper
+def validate_password_strength(password):
+    """
+    Validate password strength
+    Returns: (is_valid, error_message)
+    """
+    if len(password) < 8:
+        return False, 'Password must be at least 8 characters long'
+
+    if len(password) > 128:
+        return False, 'Password cannot exceed 128 characters'
+
+    # Check for at least one uppercase letter
+    if not re.search(r'[A-Z]', password):
+        return False, 'Password must contain at least one uppercase letter'
+
+    # Check for at least one lowercase letter
+    if not re.search(r'[a-z]', password):
+        return False, 'Password must contain at least one lowercase letter'
+
+    # Check for at least one digit
+    if not re.search(r'\d', password):
+        return False, 'Password must contain at least one number'
+
+    # Check for at least one special character
+    if not re.search(r'[!@#$%^&*(),.?":{}|<>]', password):
+        return False, 'Password must contain at least one special character (!@#$%^&*(),.?":{}|<>)'
+
+    # Check for common weak passwords
+    common_passwords = ['Password123!', 'Welcome123!', 'Qwerty123!', 'Admin123!']
+    if password in common_passwords:
+        return False, 'This password is too common. Please choose a stronger password'
+
+    return True, None
 
 # This route checks if the user is authenticated
 @app.route('/api/authorized')
@@ -47,10 +83,10 @@ def google():
 def google_auth():
     token = oauth.google.authorize_access_token()
     user_info = oauth.google.parse_id_token(token, nonce=session['nonce'])
-    
+
     # Validate nonce to prevent replay attacks
     if user_info.get('nonce') != session['nonce']:
-        return 'Invalid nonce', 400
+        return jsonify({'error': 'Invalid nonce'}), 400
 
     # Get user info from Google
     email = user_info['email']
@@ -60,6 +96,10 @@ def google_auth():
 
     session['email'] = email
     session['picture'] = picture
+
+    # Store the access token for potential revocation
+    if token and 'access_token' in token:
+        session['access_token'] = token['access_token']
 
     # Check if the user exists in the database
     db_user = User.query.filter_by(email=email).first()
@@ -74,11 +114,19 @@ def google_auth():
             oauth_id=oauth_id
         )
         db.session.add(db_user)
-        db.session.commit()
-        session['user_id'] = db_user.id
-    else:
-        # User already exists, set user session
-        session['user_id'] = db_user.id
+        try:
+            db.session.commit()
+        except IntegrityError:
+            # Race condition: another request created the user
+            db.session.rollback()
+            # Fetch the user created by the other request
+            db_user = User.query.filter_by(email=email).first()
+            if not db_user:
+                # This should never happen, but handle it gracefully
+                return jsonify({'error': 'Failed to create or retrieve user'}), 500
+
+    # Set user session
+    session['user_id'] = db_user.id
 
     # Success message and close the OAuth window (front-end will handle)
     return '''<html>Success!<script type="text/javascript">
@@ -97,14 +145,14 @@ def clear():
 # Revoke the OAuth token (useful for logout and resetting state)
 @app.route('/revoke')
 def revoke():
-    token = session.get('token')
-    if not token:
+    access_token = session.get('access_token')
+    if not access_token:
         return redirect('/clear')
 
     # Send revoke request to Google OAuth API
     revoke_response = requests.post(
         'https://oauth2.googleapis.com/revoke',
-        params={'token': token},
+        params={'token': access_token},
         headers={'content-type': 'application/x-www-form-urlencoded'}
     )
 
@@ -112,7 +160,8 @@ def revoke():
         session.clear()
         return redirect('/')
     else:
-        return 'An error occurred while revoking token', 400
+        session.clear()
+        return jsonify({'error': 'Failed to revoke token, but session cleared'}), 200
 
 
 # Email/Password Authentication Routes
@@ -137,8 +186,9 @@ def register():
             return jsonify({'error': 'Invalid email format'}), 400
 
         # Validate password strength
-        if len(password) < 8:
-            return jsonify({'error': 'Password must be at least 8 characters long'}), 400
+        is_valid, error_message = validate_password_strength(password)
+        if not is_valid:
+            return jsonify({'error': error_message}), 400
 
         # Check if user already exists
         existing_user = User.query.filter_by(email=email).first()
@@ -154,7 +204,12 @@ def register():
         new_user.set_password(password)
 
         db.session.add(new_user)
-        db.session.commit()
+        try:
+            db.session.commit()
+        except IntegrityError:
+            # Race condition: another request created the user
+            db.session.rollback()
+            return jsonify({'error': 'User with this email already exists'}), 400
 
         # Log the user in
         session['user_id'] = new_user.id

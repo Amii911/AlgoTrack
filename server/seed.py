@@ -38,13 +38,15 @@ with app.app_context():
     users.append(user2)
 
     # Email/password user (no OAuth)
+    # WARNING: This is for development/testing only. Do NOT use in production!
     user3 = User(
         email = 'john@example.com',
         user_name = 'JohnDoe',
         picture = '',
         is_admin = False
     )
-    user3.set_password('password123')  # Password: password123
+    # Using a strong password that meets validation requirements
+    user3.set_password('DevTest123!')  # Password for development: DevTest123!
     users.append(user3)
 
     db.session.add_all(users)
@@ -87,7 +89,7 @@ with app.app_context():
     up1 = UserProblem(
         user_id = user1.id,
         problem_id = problem1.id,
-        date_attempted = str(datetime.now().date()),
+        date_attempted = datetime.now().isoformat(),  # ISO 8601 format
         status = "Completed",
         notes = "Classic problem. Implemented with a hash map to optimize solution.",
         num_attempts = 1
@@ -97,7 +99,7 @@ with app.app_context():
     up2 = UserProblem(
         user_id = user1.id,
         problem_id = problem2.id,
-        date_attempted = str(datetime.now().date()),
+        date_attempted = datetime.now().isoformat(),  # ISO 8601 format
         status = "Attempted",
         notes = "Used a two-pointer technique, still need to improve edge cases.",
         num_attempts = 2
@@ -108,7 +110,7 @@ with app.app_context():
     up3 = UserProblem(
         user_id = user2.id,
         problem_id = problem1.id,
-        date_attempted = str(datetime.now().date()),
+        date_attempted = datetime.now().isoformat(),  # ISO 8601 format
         status = "Attempted",
         notes = "Still working on the optimal solution.",
         num_attempts = 3
@@ -118,7 +120,7 @@ with app.app_context():
     up4 = UserProblem(
         user_id = user2.id,
         problem_id = problem3.id,
-        date_attempted = str(datetime.now().date()),
+        date_attempted = datetime.now().isoformat(),  # ISO 8601 format
         status = "Completed",
         notes = "Sliding window approach worked well.",
         num_attempts = 1

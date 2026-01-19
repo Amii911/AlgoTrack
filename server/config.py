@@ -40,14 +40,17 @@ app.secret_key = os.getenv("FLASK_SECRET_KEY")
 app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URI")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
+# Request size limits (prevent DoS attacks)
+app.config["MAX_CONTENT_LENGTH"] = 16 * 1024 * 1024  # 16 MB max request size
+
 # Session security configuration
 app.config["SESSION_COOKIE_SECURE"] = IS_PRODUCTION  # Only send cookie over HTTPS in production
 app.config["SESSION_COOKIE_HTTPONLY"] = True  # Prevent JavaScript access to session cookie
 app.config["SESSION_COOKIE_SAMESITE"] = "Lax"  # CSRF protection
 app.config["PERMANENT_SESSION_LIFETIME"] = 3600  # Session expires after 1 hour
 
-# Environment-based debug mode
-app.config["DEBUG"] = not IS_PRODUCTION
+# Environment-based debug mode - default to production (safe)
+app.config["DEBUG"] = ENV == 'development'  # Only enable debug in development
 
 # Initialize extensions
 db = SQLAlchemy(app=app, metadata=metadata)
@@ -59,9 +62,24 @@ bcrypt = Bcrypt(app=app)
 api = Api(app=app)
 
 # CORS configuration - restrict to specific origins
-allowed_origins = os.getenv('ALLOWED_ORIGINS', 'http://localhost:3000,http://localhost:5173').split(',')
+allowed_origins_str = os.getenv('ALLOWED_ORIGINS', 'http://localhost:3000,http://localhost:5173')
+allowed_origins = [origin.strip() for origin in allowed_origins_str.split(',') if origin.strip()]
+
+# Validate that origins are valid URLs
+valid_origins = []
+for origin in allowed_origins:
+    # Basic URL validation
+    if origin.startswith('http://') or origin.startswith('https://'):
+        valid_origins.append(origin)
+    else:
+        print(f"Warning: Invalid CORS origin '{origin}' ignored. Must start with http:// or https://")
+
+if not valid_origins:
+    print("Warning: No valid CORS origins configured. Using default localhost origins.")
+    valid_origins = ['http://localhost:3000', 'http://localhost:5173']
+
 CORS(app,
-     origins=allowed_origins,
+     origins=valid_origins,
      supports_credentials=True,
      methods=['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
      allow_headers=['Content-Type', 'Authorization']
