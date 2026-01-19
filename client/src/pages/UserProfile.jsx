@@ -39,156 +39,46 @@ const UserProfile = () => {
 
   if (!isAuthenticated) {
     return (
-      <div className="profile-container">
-        <div className="auth-required">
-          <h2>Authentication Required</h2>
-          <p>Please log in to view your profile and track your progress.</p>
+      <div className="max-w-6xl mx-auto p-8">
+        <div className="bg-white p-12 rounded-lg text-center shadow-md">
+          <h2 className="text-gray-800 mb-4 text-2xl font-semibold">Authentication Required</h2>
+          <p className="text-gray-600">Please log in to view your profile and track your progress.</p>
         </div>
-
-        <style jsx>{`
-          .profile-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-          }
-
-          .auth-required {
-            background: white;
-            padding: 3rem;
-            border-radius: 8px;
-            text-align: center;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-          }
-
-          .auth-required h2 {
-            color: #333;
-            margin-bottom: 1rem;
-          }
-
-          .auth-required p {
-            color: #666;
-          }
-        `}</style>
       </div>
     );
   }
 
   if (loading) {
     return (
-      <div className="profile-container">
-        <div className="loading">Loading your profile...</div>
-
-        <style jsx>{`
-          .profile-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-          }
-
-          .loading {
-            text-align: center;
-            padding: 3rem;
-            color: #666;
-            font-size: 1.125rem;
-          }
-        `}</style>
+      <div className="max-w-6xl mx-auto p-8">
+        <div className="text-center py-12 text-gray-600 text-lg">Loading your profile...</div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="profile-container">
-        <div className="error-container">
-          <p className="error-text">{error}</p>
+      <div className="max-w-6xl mx-auto p-8">
+        <div className="text-center py-12 bg-white rounded-lg shadow-md">
+          <p className="text-red-500 mb-4 text-lg">{error}</p>
           <button onClick={fetchData} className="btn btn-primary">
             Try Again
           </button>
         </div>
-
-        <style jsx>{`
-          .profile-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-          }
-
-          .error-container {
-            text-align: center;
-            padding: 3rem;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-          }
-
-          .error-text {
-            color: #f44336;
-            margin-bottom: 1rem;
-            font-size: 1.125rem;
-          }
-
-          .btn-primary {
-            background: #4CAF50;
-            color: white;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background 0.2s;
-          }
-
-          .btn-primary:hover {
-            background: #45a049;
-          }
-        `}</style>
       </div>
     );
   }
 
   return (
-    <div className="profile-container">
-      <div className="profile-header">
-        <h1>Welcome back, {user.user_name}!</h1>
-        <p className="user-email">{user.email}</p>
+    <div className="max-w-6xl mx-auto p-8">
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-gray-800 mb-2">Welcome back, {user.user_name}!</h1>
+        <p className="text-gray-600">{user.email}</p>
       </div>
 
       <ProfileStats userProblems={userProblems} allProblems={allProblems} />
 
       <TrackedProblems />
-
-      <style jsx>{`
-        .profile-container {
-          max-width: 1200px;
-          margin: 0 auto;
-          padding: 2rem;
-        }
-
-        .profile-header {
-          margin-bottom: 2rem;
-        }
-
-        h1 {
-          margin: 0 0 0.5rem 0;
-          color: #333;
-          font-size: 2rem;
-        }
-
-        .user-email {
-          margin: 0;
-          color: #666;
-          font-size: 1rem;
-        }
-
-        @media (max-width: 768px) {
-          .profile-container {
-            padding: 1rem;
-          }
-
-          h1 {
-            font-size: 1.5rem;
-          }
-        }
-      `}</style>
     </div>
   );
 };

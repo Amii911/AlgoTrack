@@ -19,17 +19,6 @@ function App() {
           </Routes>
         </main>
       </div>
-
-      <style jsx>{`
-        .app {
-          min-height: 100vh;
-          background-color: #f5f5f5;
-        }
-
-        .main-content {
-          min-height: calc(100vh - 70px);
-        }
-      `}</style>
     </BrowserRouter>
   );
 }

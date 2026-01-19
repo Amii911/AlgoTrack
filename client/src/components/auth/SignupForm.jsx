@@ -15,7 +15,7 @@ const SignupSchema = Yup.object().shape({
     .min(8, 'Password must be at least 8 characters')
     .matches(
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])/,
-      'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character (!@#$%^&*(),.?":{}|<>)'
+      'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character'
     )
     .required('Password is required'),
   confirmPassword: Yup.string()
@@ -33,12 +33,15 @@ const PasswordRequirements = ({ password }) => {
   ];
 
   return (
-    <div className="password-requirements">
-      <p className="requirements-title">Password must have:</p>
-      <ul className="requirements-list">
+    <div className="bg-gray-50 rounded p-3 mt-2">
+      <p className="text-xs text-gray-600 font-medium mb-2">Password must have:</p>
+      <ul className="list-none m-0 p-0 grid gap-1">
         {requirements.map((req, index) => (
-          <li key={index} className={req.met ? 'met' : 'unmet'}>
-            <span className="requirement-icon">{req.met ? '\u2713' : '\u2022'}</span>
+          <li
+            key={index}
+            className={`text-xs flex items-center gap-2 ${req.met ? 'text-green-600' : 'text-gray-400'}`}
+          >
+            <span className="font-bold w-4">{req.met ? '✓' : '•'}</span>
             {req.label}
           </li>
         ))}
@@ -66,11 +69,11 @@ const SignupForm = ({ onSuccess, onSwitchToLogin }) => {
   };
 
   return (
-    <div className="signup-form">
-      <h2>Create Your Account</h2>
+    <div className="max-w-md mx-auto">
+      <h2 className="text-center mb-6 text-gray-800 text-2xl font-semibold">Create Your Account</h2>
 
       {error && (
-        <div className="error-message" style={{ color: 'red', marginBottom: '1rem' }}>
+        <div className="bg-red-50 text-red-600 p-3 rounded mb-4">
           {error}
         </div>
       )}
@@ -87,8 +90,10 @@ const SignupForm = ({ onSuccess, onSwitchToLogin }) => {
       >
         {({ isSubmitting }) => (
           <Form>
-            <div className="form-group">
-              <label htmlFor="user_name">Name</label>
+            <div className="mb-4">
+              <label htmlFor="user_name" className="block mb-2 font-medium text-gray-600">
+                Name
+              </label>
               <Field
                 type="text"
                 name="user_name"
@@ -96,11 +101,13 @@ const SignupForm = ({ onSuccess, onSwitchToLogin }) => {
                 placeholder="Enter your name"
                 className="form-input"
               />
-              <ErrorMessage name="user_name" component="div" className="field-error" />
+              <ErrorMessage name="user_name" component="div" className="text-red-500 text-sm mt-1" />
             </div>
 
-            <div className="form-group">
-              <label htmlFor="email">Email</label>
+            <div className="mb-4">
+              <label htmlFor="email" className="block mb-2 font-medium text-gray-600">
+                Email
+              </label>
               <Field
                 type="email"
                 name="email"
@@ -108,11 +115,13 @@ const SignupForm = ({ onSuccess, onSwitchToLogin }) => {
                 placeholder="Enter your email"
                 className="form-input"
               />
-              <ErrorMessage name="email" component="div" className="field-error" />
+              <ErrorMessage name="email" component="div" className="text-red-500 text-sm mt-1" />
             </div>
 
-            <div className="form-group">
-              <label htmlFor="password">Password</label>
+            <div className="mb-4">
+              <label htmlFor="password" className="block mb-2 font-medium text-gray-600">
+                Password
+              </label>
               <Field
                 type="password"
                 name="password"
@@ -122,11 +131,13 @@ const SignupForm = ({ onSuccess, onSwitchToLogin }) => {
                 onKeyUp={(e) => setPasswordValue(e.target.value)}
               />
               <PasswordRequirements password={passwordValue} />
-              <ErrorMessage name="password" component="div" className="field-error" />
+              <ErrorMessage name="password" component="div" className="text-red-500 text-sm mt-1" />
             </div>
 
-            <div className="form-group">
-              <label htmlFor="confirmPassword">Confirm Password</label>
+            <div className="mb-4">
+              <label htmlFor="confirmPassword" className="block mb-2 font-medium text-gray-600">
+                Confirm Password
+              </label>
               <Field
                 type="password"
                 name="confirmPassword"
@@ -134,13 +145,13 @@ const SignupForm = ({ onSuccess, onSwitchToLogin }) => {
                 placeholder="Confirm your password"
                 className="form-input"
               />
-              <ErrorMessage name="confirmPassword" component="div" className="field-error" />
+              <ErrorMessage name="confirmPassword" component="div" className="text-red-500 text-sm mt-1" />
             </div>
 
             <button
               type="submit"
               disabled={isSubmitting}
-              className="btn btn-primary"
+              className="btn btn-primary w-full py-3"
             >
               {isSubmitting ? 'Creating Account...' : 'Sign Up'}
             </button>
@@ -148,141 +159,14 @@ const SignupForm = ({ onSuccess, onSwitchToLogin }) => {
         )}
       </Formik>
 
-      <div className="auth-switch">
-        <p>
+      <div className="text-center mt-6">
+        <p className="text-gray-600">
           Already have an account?{' '}
-          <button onClick={onSwitchToLogin} className="link-button">
+          <button onClick={onSwitchToLogin} className="text-primary underline bg-transparent border-none cursor-pointer">
             Login
           </button>
         </p>
       </div>
-
-      <style jsx>{`
-        .signup-form {
-          max-width: 400px;
-          margin: 0 auto;
-        }
-
-        h2 {
-          text-align: center;
-          margin-bottom: 1.5rem;
-          color: #333;
-        }
-
-        .form-group {
-          margin-bottom: 1rem;
-        }
-
-        label {
-          display: block;
-          margin-bottom: 0.5rem;
-          font-weight: 500;
-          color: #555;
-        }
-
-        .form-input {
-          width: 100%;
-          padding: 0.75rem;
-          border: 1px solid #ddd;
-          border-radius: 4px;
-          font-size: 1rem;
-        }
-
-        .form-input:focus {
-          outline: none;
-          border-color: #4CAF50;
-        }
-
-        .field-error {
-          color: #f44336;
-          font-size: 0.875rem;
-          margin-top: 0.25rem;
-        }
-
-        .password-requirements {
-          background: #f8f9fa;
-          border-radius: 4px;
-          padding: 0.75rem;
-          margin-top: 0.5rem;
-        }
-
-        .requirements-title {
-          font-size: 0.8rem;
-          color: #666;
-          margin: 0 0 0.5rem 0;
-          font-weight: 500;
-        }
-
-        .requirements-list {
-          list-style: none;
-          margin: 0;
-          padding: 0;
-          display: grid;
-          gap: 0.25rem;
-        }
-
-        .requirements-list li {
-          font-size: 0.75rem;
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-        }
-
-        .requirements-list li.met {
-          color: #4CAF50;
-        }
-
-        .requirements-list li.unmet {
-          color: #999;
-        }
-
-        .requirement-icon {
-          font-weight: bold;
-          width: 1rem;
-        }
-
-        .btn {
-          width: 100%;
-          padding: 0.75rem;
-          border: none;
-          border-radius: 4px;
-          font-size: 1rem;
-          cursor: pointer;
-          transition: background-color 0.2s;
-        }
-
-        .btn-primary {
-          background-color: #4CAF50;
-          color: white;
-        }
-
-        .btn-primary:hover:not(:disabled) {
-          background-color: #45a049;
-        }
-
-        .btn:disabled {
-          opacity: 0.6;
-          cursor: not-allowed;
-        }
-
-        .auth-switch {
-          text-align: center;
-          margin-top: 1.5rem;
-        }
-
-        .link-button {
-          background: none;
-          border: none;
-          color: #4CAF50;
-          text-decoration: underline;
-          cursor: pointer;
-          font-size: inherit;
-        }
-
-        .link-button:hover {
-          color: #45a049;
-        }
-      `}</style>
     </div>
   );
 };

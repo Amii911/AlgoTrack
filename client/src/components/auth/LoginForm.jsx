@@ -29,11 +29,11 @@ const LoginForm = ({ onSuccess, onSwitchToSignup }) => {
   };
 
   return (
-    <div className="login-form">
-      <h2>Login to AlgoTrack</h2>
+    <div className="max-w-md mx-auto">
+      <h2 className="text-center mb-6 text-gray-800 text-2xl font-semibold">Login to AlgoTrack</h2>
 
       {error && (
-        <div className="error-message" style={{ color: 'red', marginBottom: '1rem' }}>
+        <div className="bg-red-50 text-red-600 p-3 rounded mb-4">
           {error}
         </div>
       )}
@@ -45,8 +45,10 @@ const LoginForm = ({ onSuccess, onSwitchToSignup }) => {
       >
         {({ isSubmitting }) => (
           <Form>
-            <div className="form-group">
-              <label htmlFor="email">Email</label>
+            <div className="mb-4">
+              <label htmlFor="email" className="block mb-2 font-medium text-gray-600">
+                Email
+              </label>
               <Field
                 type="email"
                 name="email"
@@ -54,11 +56,13 @@ const LoginForm = ({ onSuccess, onSwitchToSignup }) => {
                 placeholder="Enter your email"
                 className="form-input"
               />
-              <ErrorMessage name="email" component="div" className="field-error" />
+              <ErrorMessage name="email" component="div" className="text-red-500 text-sm mt-1" />
             </div>
 
-            <div className="form-group">
-              <label htmlFor="password">Password</label>
+            <div className="mb-4">
+              <label htmlFor="password" className="block mb-2 font-medium text-gray-600">
+                Password
+              </label>
               <Field
                 type="password"
                 name="password"
@@ -66,13 +70,13 @@ const LoginForm = ({ onSuccess, onSwitchToSignup }) => {
                 placeholder="Enter your password"
                 className="form-input"
               />
-              <ErrorMessage name="password" component="div" className="field-error" />
+              <ErrorMessage name="password" component="div" className="text-red-500 text-sm mt-1" />
             </div>
 
             <button
               type="submit"
               disabled={isSubmitting}
-              className="btn btn-primary"
+              className="btn btn-primary w-full py-3"
             >
               {isSubmitting ? 'Logging in...' : 'Login'}
             </button>
@@ -80,99 +84,14 @@ const LoginForm = ({ onSuccess, onSwitchToSignup }) => {
         )}
       </Formik>
 
-      <div className="auth-switch">
-        <p>
+      <div className="text-center mt-6">
+        <p className="text-gray-600">
           Don't have an account?{' '}
-          <button onClick={onSwitchToSignup} className="link-button">
+          <button onClick={onSwitchToSignup} className="text-primary underline bg-transparent border-none cursor-pointer">
             Sign up
           </button>
         </p>
       </div>
-
-      <style jsx>{`
-        .login-form {
-          max-width: 400px;
-          margin: 0 auto;
-        }
-
-        h2 {
-          text-align: center;
-          margin-bottom: 1.5rem;
-          color: #333;
-        }
-
-        .form-group {
-          margin-bottom: 1rem;
-        }
-
-        label {
-          display: block;
-          margin-bottom: 0.5rem;
-          font-weight: 500;
-          color: #555;
-        }
-
-        .form-input {
-          width: 100%;
-          padding: 0.75rem;
-          border: 1px solid #ddd;
-          border-radius: 4px;
-          font-size: 1rem;
-        }
-
-        .form-input:focus {
-          outline: none;
-          border-color: #4CAF50;
-        }
-
-        .field-error {
-          color: #f44336;
-          font-size: 0.875rem;
-          margin-top: 0.25rem;
-        }
-
-        .btn {
-          width: 100%;
-          padding: 0.75rem;
-          border: none;
-          border-radius: 4px;
-          font-size: 1rem;
-          cursor: pointer;
-          transition: background-color 0.2s;
-        }
-
-        .btn-primary {
-          background-color: #4CAF50;
-          color: white;
-        }
-
-        .btn-primary:hover:not(:disabled) {
-          background-color: #45a049;
-        }
-
-        .btn:disabled {
-          opacity: 0.6;
-          cursor: not-allowed;
-        }
-
-        .auth-switch {
-          text-align: center;
-          margin-top: 1.5rem;
-        }
-
-        .link-button {
-          background: none;
-          border: none;
-          color: #4CAF50;
-          text-decoration: underline;
-          cursor: pointer;
-          font-size: inherit;
-        }
-
-        .link-button:hover {
-          color: #45a049;
-        }
-      `}</style>
     </div>
   );
 };

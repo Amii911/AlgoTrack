@@ -15,9 +15,18 @@ const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
   const handleSwitchToLogin = () => setMode('login');
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <button className="modal-close" onClick={onClose}>
+    <div
+      className="fixed inset-0 bg-black/50 flex justify-center items-center z-50"
+      onClick={onClose}
+    >
+      <div
+        className="bg-white p-8 rounded-lg max-w-md w-11/12 max-h-[90vh] overflow-y-auto relative"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button
+          className="absolute top-4 right-4 bg-transparent border-none text-3xl cursor-pointer text-gray-400 hover:text-gray-800 leading-none p-0"
+          onClick={onClose}
+        >
           ×
         </button>
 
@@ -33,51 +42,6 @@ const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
           />
         )}
       </div>
-
-      <style jsx>{`
-        .modal-overlay {
-          position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background-color: rgba(0, 0, 0, 0.5);
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          z-index: 1000;
-        }
-
-        .modal-content {
-          background: white;
-          padding: 2rem;
-          border-radius: 8px;
-          max-width: 500px;
-          width: 90%;
-          max-height: 90vh;
-          overflow-y: auto;
-          position: relative;
-        }
-
-        .modal-close {
-          position: absolute;
-          top: 1rem;
-          right: 1rem;
-          background: none;
-          border: none;
-          font-size: 2rem;
-          cursor: pointer;
-          color: #999;
-          line-height: 1;
-          padding: 0;
-          width: 30px;
-          height: 30px;
-        }
-
-        .modal-close:hover {
-          color: #333;
-        }
-      `}</style>
     </div>
   );
 };

@@ -43,21 +43,18 @@ const ProblemList = ({ onTrackProblem }) => {
   const applyFilters = () => {
     let filtered = [...problems];
 
-    // Search filter
     if (filters.search) {
       filtered = filtered.filter((problem) =>
         problem.problem_name.toLowerCase().includes(filters.search.toLowerCase())
       );
     }
 
-    // Difficulty filter
     if (filters.difficulty) {
       filtered = filtered.filter(
         (problem) => problem.difficulty === filters.difficulty
       );
     }
 
-    // Category filter
     if (filters.category) {
       filtered = filtered.filter(
         (problem) => problem.category === filters.category
@@ -69,17 +66,17 @@ const ProblemList = ({ onTrackProblem }) => {
 
   const handleAddSuccess = () => {
     setShowAddForm(false);
-    fetchProblems(); // Refresh the list
+    fetchProblems();
   };
 
   if (loading) {
-    return <div className="loading">Loading problems...</div>;
+    return <div className="text-center py-12 text-gray-600">Loading problems...</div>;
   }
 
   if (error) {
     return (
-      <div className="error-container">
-        <p className="error-text">{error}</p>
+      <div className="text-center py-12">
+        <p className="text-red-500 mb-4">{error}</p>
         <button onClick={fetchProblems} className="btn btn-primary">
           Try Again
         </button>
@@ -88,9 +85,9 @@ const ProblemList = ({ onTrackProblem }) => {
   }
 
   return (
-    <div className="problem-list-container">
-      <div className="header">
-        <h1>LeetCode Problems</h1>
+    <div className="max-w-6xl mx-auto p-8">
+      <div className="flex justify-between items-center mb-8 flex-wrap gap-4">
+        <h1 className="text-3xl font-bold text-gray-800 m-0">LeetCode Problems</h1>
         {isAuthenticated && (
           <button
             onClick={() => setShowAddForm(!showAddForm)}
@@ -102,7 +99,7 @@ const ProblemList = ({ onTrackProblem }) => {
       </div>
 
       {showAddForm && (
-        <div className="add-form-section">
+        <div className="mb-8">
           <AddProblemForm
             onSuccess={handleAddSuccess}
             onCancel={() => setShowAddForm(false)}
@@ -112,18 +109,16 @@ const ProblemList = ({ onTrackProblem }) => {
 
       <ProblemFilters filters={filters} onFilterChange={setFilters} />
 
-      <div className="problems-stats">
-        <p>
-          Showing {filteredProblems.length} of {problems.length} problems
-        </p>
+      <div className="my-4 text-gray-600">
+        <p>Showing {filteredProblems.length} of {problems.length} problems</p>
       </div>
 
       {filteredProblems.length === 0 ? (
-        <div className="no-problems">
+        <div className="text-center py-12 text-gray-600">
           <p>No problems found matching your filters.</p>
         </div>
       ) : (
-        <div className="problems-grid">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredProblems.map((problem) => (
             <ProblemCard
               key={problem.id}
@@ -133,88 +128,6 @@ const ProblemList = ({ onTrackProblem }) => {
           ))}
         </div>
       )}
-
-      <style jsx>{`
-        .problem-list-container {
-          max-width: 1200px;
-          margin: 0 auto;
-          padding: 2rem;
-        }
-
-        .header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-bottom: 2rem;
-        }
-
-        h1 {
-          margin: 0;
-          color: #333;
-        }
-
-        .btn-primary {
-          background: #4CAF50;
-          color: white;
-          border: none;
-          padding: 0.75rem 1.5rem;
-          border-radius: 4px;
-          cursor: pointer;
-          transition: background 0.2s;
-        }
-
-        .btn-primary:hover {
-          background: #45a049;
-        }
-
-        .add-form-section {
-          margin-bottom: 2rem;
-        }
-
-        .problems-stats {
-          margin: 1rem 0;
-          color: #666;
-        }
-
-        .problems-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-          gap: 1.5rem;
-        }
-
-        .loading,
-        .no-problems {
-          text-align: center;
-          padding: 3rem;
-          color: #666;
-        }
-
-        .error-container {
-          text-align: center;
-          padding: 3rem;
-        }
-
-        .error-text {
-          color: #f44336;
-          margin-bottom: 1rem;
-        }
-
-        @media (max-width: 768px) {
-          .problem-list-container {
-            padding: 1rem;
-          }
-
-          .header {
-            flex-direction: column;
-            align-items: stretch;
-            gap: 1rem;
-          }
-
-          .problems-grid {
-            grid-template-columns: 1fr;
-          }
-        }
-      `}</style>
     </div>
   );
 };

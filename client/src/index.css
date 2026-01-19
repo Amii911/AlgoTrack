@@ -1,68 +1,77 @@
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@import "tailwindcss";
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* Custom theme configuration */
+@theme {
+  --color-primary: #4CAF50;
+  --color-primary-dark: #45a049;
+  --color-secondary: #667eea;
+  --color-secondary-dark: #764ba2;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
+/* Base styles */
 body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  @apply bg-gray-100 text-gray-800 antialiased;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+#root {
+  @apply min-h-screen;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+/* Form inputs */
+.form-input {
+  @apply w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-primary bg-white text-gray-800;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+/* Buttons */
+.btn {
+  @apply px-4 py-2 rounded font-medium cursor-pointer transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed;
+}
+
+.btn-primary {
+  @apply bg-primary text-white border border-primary hover:bg-primary-dark;
+}
+
+.btn-outline {
+  @apply bg-white text-primary border border-primary hover:bg-green-50;
+}
+
+.btn-secondary {
+  @apply bg-transparent text-white border-2 border-white hover:bg-white/10;
+}
+
+/* Badges */
+.difficulty-badge {
+  @apply px-3 py-1 rounded-full text-xs font-semibold;
+}
+
+.difficulty-badge.easy {
+  @apply bg-green-100 text-green-800;
+}
+
+.difficulty-badge.medium {
+  @apply bg-orange-100 text-orange-700;
+}
+
+.difficulty-badge.hard {
+  @apply bg-red-100 text-red-800;
+}
+
+.status-badge {
+  @apply px-3 py-1 rounded-full text-xs font-semibold;
+}
+
+.status-badge.completed {
+  @apply bg-green-100 text-green-800;
+}
+
+.status-badge.attempted {
+  @apply bg-orange-100 text-orange-700;
+}
+
+.status-badge.skipped {
+  @apply bg-gray-100 text-gray-600;
+}
+
+.category-badge {
+  @apply px-3 py-1 rounded-full text-xs bg-blue-100 text-blue-700;
 }
