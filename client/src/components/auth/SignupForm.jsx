@@ -14,8 +14,8 @@ const SignupSchema = Yup.object().shape({
   password: Yup.string()
     .min(8, 'Password must be at least 8 characters')
     .matches(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
-      'Password must contain at least one uppercase letter, one lowercase letter, and one number'
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])/,
+      'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character (!@#$%^&*(),.?":{}|<>)'
     )
     .required('Password is required'),
   confirmPassword: Yup.string()
@@ -23,9 +23,34 @@ const SignupSchema = Yup.object().shape({
     .required('Please confirm your password'),
 });
 
+const PasswordRequirements = ({ password }) => {
+  const requirements = [
+    { label: 'At least 8 characters', met: password.length >= 8 },
+    { label: 'One uppercase letter (A-Z)', met: /[A-Z]/.test(password) },
+    { label: 'One lowercase letter (a-z)', met: /[a-z]/.test(password) },
+    { label: 'One number (0-9)', met: /\d/.test(password) },
+    { label: 'One special character (!@#$%^&*)', met: /[!@#$%^&*(),.?":{}|<>]/.test(password) },
+  ];
+
+  return (
+    <div className="password-requirements">
+      <p className="requirements-title">Password must have:</p>
+      <ul className="requirements-list">
+        {requirements.map((req, index) => (
+          <li key={index} className={req.met ? 'met' : 'unmet'}>
+            <span className="requirement-icon">{req.met ? '\u2713' : '\u2022'}</span>
+            {req.label}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
 const SignupForm = ({ onSuccess, onSwitchToLogin }) => {
   const { register } = useAuth();
   const [error, setError] = useState('');
+  const [passwordValue, setPasswordValue] = useState('');
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
@@ -94,7 +119,9 @@ const SignupForm = ({ onSuccess, onSwitchToLogin }) => {
                 id="password"
                 placeholder="Create a password"
                 className="form-input"
+                onKeyUp={(e) => setPasswordValue(e.target.value)}
               />
+              <PasswordRequirements password={passwordValue} />
               <ErrorMessage name="password" component="div" className="field-error" />
             </div>
 
@@ -170,6 +197,48 @@ const SignupForm = ({ onSuccess, onSwitchToLogin }) => {
           color: #f44336;
           font-size: 0.875rem;
           margin-top: 0.25rem;
+        }
+
+        .password-requirements {
+          background: #f8f9fa;
+          border-radius: 4px;
+          padding: 0.75rem;
+          margin-top: 0.5rem;
+        }
+
+        .requirements-title {
+          font-size: 0.8rem;
+          color: #666;
+          margin: 0 0 0.5rem 0;
+          font-weight: 500;
+        }
+
+        .requirements-list {
+          list-style: none;
+          margin: 0;
+          padding: 0;
+          display: grid;
+          gap: 0.25rem;
+        }
+
+        .requirements-list li {
+          font-size: 0.75rem;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+        }
+
+        .requirements-list li.met {
+          color: #4CAF50;
+        }
+
+        .requirements-list li.unmet {
+          color: #999;
+        }
+
+        .requirement-icon {
+          font-weight: bold;
+          width: 1rem;
         }
 
         .btn {

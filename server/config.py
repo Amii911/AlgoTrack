@@ -6,10 +6,13 @@ from flask_bcrypt import Bcrypt
 from flask_restful import Api
 from flask_cors import CORS
 from dotenv import load_dotenv
+from pathlib import Path
 import os
 
-# Load environment variables
-load_dotenv()
+# Load environment variables from project root .env file
+# This ensures .env is found whether running from server/ or project root
+env_path = Path(__file__).resolve().parent.parent / '.env'
+load_dotenv(dotenv_path=env_path)
 
 # Validate required environment variables
 required_env_vars = ['FLASK_SECRET_KEY', 'DATABASE_URI']

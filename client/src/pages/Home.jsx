@@ -18,7 +18,7 @@ const Home = () => {
         <div className="hero-content">
           <h1 className="hero-title">AlgoTrack</h1>
           <p className="hero-subtitle">
-            Track Your LeetCode Journey & Master Data Structures & Algorithms
+            Track Your Journey & Master Data Structures & Algorithms
           </p>
           <p className="hero-description">
             Keep track of all your problem-solving progress in one place. Monitor your attempts,
