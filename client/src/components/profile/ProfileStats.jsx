@@ -36,12 +36,12 @@ const ProfileStats = ({ userProblems, allProblems }) => {
     .slice(0, 5);
 
   return (
-    <div className="bg-white p-8 rounded-lg shadow-md mb-8">
-      <h2 className="text-2xl font-bold text-gray-800 mb-6">Your Statistics</h2>
+    <div className="bg-slate-800 p-8 rounded-lg border border-slate-700 mb-8">
+      <h2 className="text-2xl font-bold text-white mb-6">Your Statistics</h2>
 
       {/* Stats Grid */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-        <div className="p-6 rounded-lg text-center text-white bg-gradient-to-br from-indigo-500 to-purple-600 hover:-translate-y-0.5 transition-all">
+        <div className="p-6 rounded-lg text-center text-white bg-gradient-to-br from-blue-500 to-cyan-500 hover:-translate-y-0.5 transition-all">
           <div className="text-4xl font-bold mb-2">{stats.total}</div>
           <div className="text-sm opacity-90">Total Problems</div>
         </div>
@@ -53,7 +53,7 @@ const ProfileStats = ({ userProblems, allProblems }) => {
           <div className="text-4xl font-bold mb-2">{stats.attempted}</div>
           <div className="text-sm opacity-90">Attempted</div>
         </div>
-        <div className="p-6 rounded-lg text-center text-white bg-gradient-to-br from-gray-500 to-gray-600 hover:-translate-y-0.5 transition-all">
+        <div className="p-6 rounded-lg text-center text-white bg-gradient-to-br from-slate-500 to-slate-600 hover:-translate-y-0.5 transition-all">
           <div className="text-4xl font-bold mb-2">{stats.skipped}</div>
           <div className="text-sm opacity-90">Skipped</div>
         </div>
@@ -62,12 +62,12 @@ const ProfileStats = ({ userProblems, allProblems }) => {
       {/* Completion Rate */}
       <div className="mb-8">
         <div className="flex justify-between items-center mb-2">
-          <span className="font-semibold text-gray-600">Completion Rate</span>
-          <span className="text-xl font-bold text-primary">{completionRate}%</span>
+          <span className="font-semibold text-gray-300">Completion Rate</span>
+          <span className="text-xl font-bold text-blue-400">{completionRate}%</span>
         </div>
-        <div className="w-full h-3 bg-gray-200 rounded-full overflow-hidden">
+        <div className="w-full h-3 bg-slate-700 rounded-full overflow-hidden">
           <div
-            className="h-full bg-gradient-to-r from-green-500 to-green-400 transition-all duration-300"
+            className="h-full bg-gradient-to-r from-blue-500 to-cyan-400 transition-all duration-300"
             style={{ width: `${completionRate}%` }}
           />
         </div>
@@ -75,19 +75,19 @@ const ProfileStats = ({ userProblems, allProblems }) => {
 
       {/* By Difficulty */}
       <div className="mb-8">
-        <h3 className="text-lg font-semibold text-gray-700 mb-4">By Difficulty</h3>
+        <h3 className="text-lg font-semibold text-gray-200 mb-4">By Difficulty</h3>
         <div className="flex flex-col gap-3">
-          <div className="flex justify-between items-center p-4 bg-gray-50 rounded-lg border-l-4 border-green-500">
-            <span className="font-medium text-gray-800">Easy</span>
-            <span className="font-bold text-gray-600 bg-white px-3 py-1 rounded-full">{stats.byDifficulty.Easy}</span>
+          <div className="flex justify-between items-center p-4 bg-slate-700/50 rounded-lg border-l-4 border-green-500">
+            <span className="font-medium text-gray-200">Easy</span>
+            <span className="font-bold text-gray-400 bg-slate-600 px-3 py-1 rounded-full">{stats.byDifficulty.Easy}</span>
           </div>
-          <div className="flex justify-between items-center p-4 bg-gray-50 rounded-lg border-l-4 border-orange-500">
-            <span className="font-medium text-gray-800">Medium</span>
-            <span className="font-bold text-gray-600 bg-white px-3 py-1 rounded-full">{stats.byDifficulty.Medium}</span>
+          <div className="flex justify-between items-center p-4 bg-slate-700/50 rounded-lg border-l-4 border-orange-500">
+            <span className="font-medium text-gray-200">Medium</span>
+            <span className="font-bold text-gray-400 bg-slate-600 px-3 py-1 rounded-full">{stats.byDifficulty.Medium}</span>
           </div>
-          <div className="flex justify-between items-center p-4 bg-gray-50 rounded-lg border-l-4 border-red-500">
-            <span className="font-medium text-gray-800">Hard</span>
-            <span className="font-bold text-gray-600 bg-white px-3 py-1 rounded-full">{stats.byDifficulty.Hard}</span>
+          <div className="flex justify-between items-center p-4 bg-slate-700/50 rounded-lg border-l-4 border-red-500">
+            <span className="font-medium text-gray-200">Hard</span>
+            <span className="font-bold text-gray-400 bg-slate-600 px-3 py-1 rounded-full">{stats.byDifficulty.Hard}</span>
           </div>
         </div>
       </div>
@@ -95,12 +95,12 @@ const ProfileStats = ({ userProblems, allProblems }) => {
       {/* Top Categories */}
       {topCategories.length > 0 && (
         <div>
-          <h3 className="text-lg font-semibold text-gray-700 mb-4">Top Categories</h3>
+          <h3 className="text-lg font-semibold text-gray-200 mb-4">Top Categories</h3>
           <div className="flex flex-col gap-3">
             {topCategories.map(([category, count]) => (
-              <div key={category} className="flex justify-between items-center p-4 bg-gray-50 rounded-lg">
-                <span className="font-medium text-gray-800">{category}</span>
-                <span className="font-bold text-gray-600 bg-white px-3 py-1 rounded-full">{count}</span>
+              <div key={category} className="flex justify-between items-center p-4 bg-slate-700/50 rounded-lg">
+                <span className="font-medium text-gray-200">{category}</span>
+                <span className="font-bold text-gray-400 bg-slate-600 px-3 py-1 rounded-full">{count}</span>
               </div>
             ))}
           </div>

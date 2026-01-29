@@ -70,13 +70,13 @@ const ProblemList = ({ onTrackProblem }) => {
   };
 
   if (loading) {
-    return <div className="text-center py-12 text-gray-600">Loading problems...</div>;
+    return <div className="text-center py-12 text-gray-400">Loading problems...</div>;
   }
 
   if (error) {
     return (
       <div className="text-center py-12">
-        <p className="text-red-500 mb-4">{error}</p>
+        <p className="text-red-400 mb-4">{error}</p>
         <button onClick={fetchProblems} className="btn btn-primary">
           Try Again
         </button>
@@ -87,7 +87,7 @@ const ProblemList = ({ onTrackProblem }) => {
   return (
     <div className="max-w-6xl mx-auto p-8">
       <div className="flex justify-between items-center mb-8 flex-wrap gap-4">
-        <h1 className="text-3xl font-bold text-gray-800 m-0">LeetCode Problems</h1>
+        <h1 className="text-3xl font-bold text-white m-0">LeetCode Problems</h1>
         {isAuthenticated && (
           <button
             onClick={() => setShowAddForm(!showAddForm)}
@@ -109,12 +109,12 @@ const ProblemList = ({ onTrackProblem }) => {
 
       <ProblemFilters filters={filters} onFilterChange={setFilters} />
 
-      <div className="my-4 text-gray-600">
+      <div className="my-4 text-gray-400">
         <p>Showing {filteredProblems.length} of {problems.length} problems</p>
       </div>
 
       {filteredProblems.length === 0 ? (
-        <div className="text-center py-12 text-gray-600">
+        <div className="text-center py-12 text-gray-400">
           <p>No problems found matching your filters.</p>
         </div>
       ) : (

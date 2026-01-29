@@ -64,18 +64,18 @@ const AddProgressForm = ({ onSuccess, onCancel }) => {
 
   if (loading) {
     return (
-      <div className="text-center py-8 text-gray-500">
+      <div className="text-center py-8 text-gray-400">
         <div className="animate-pulse">Loading problems...</div>
       </div>
     );
   }
 
   return (
-    <div className="bg-white p-6 md:p-8 rounded-xl shadow-lg border border-gray-100">
-      <h3 className="mt-0 mb-6 text-xl font-semibold text-gray-800">Start Tracking a Problem</h3>
+    <div className="bg-slate-800 p-6 md:p-8 rounded-xl border border-slate-700">
+      <h3 className="mt-0 mb-6 text-xl font-semibold text-white">Start Tracking a Problem</h3>
 
       {error && (
-        <div className="bg-red-50 text-red-700 px-4 py-3 rounded-lg mb-4 border border-red-200">
+        <div className="bg-red-500/20 text-red-400 px-4 py-3 rounded-lg mb-4 border border-red-500/30">
           {error}
         </div>
       )}
@@ -93,14 +93,14 @@ const AddProgressForm = ({ onSuccess, onCancel }) => {
         {({ isSubmitting, values }) => (
           <Form className="space-y-5">
             <div>
-              <label htmlFor="problem_id" className="block mb-2 font-medium text-gray-700">
+              <label htmlFor="problem_id" className="block mb-2 font-medium text-gray-300">
                 Select Problem
               </label>
               <Field
                 as="select"
                 name="problem_id"
                 id="problem_id"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg text-base bg-white focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all cursor-pointer"
+                className="w-full px-4 py-3 border border-slate-600 rounded-lg text-base bg-slate-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all cursor-pointer"
               >
                 <option value="">Choose a problem...</option>
                 {problems.map((problem) => (
@@ -109,34 +109,34 @@ const AddProgressForm = ({ onSuccess, onCancel }) => {
                   </option>
                 ))}
               </Field>
-              <ErrorMessage name="problem_id" component="div" className="text-red-500 text-sm mt-1" />
+              <ErrorMessage name="problem_id" component="div" className="text-red-400 text-sm mt-1" />
             </div>
 
             {values.problem_id && (
-              <div className="px-3 py-2 bg-gray-50 rounded-lg text-sm text-gray-600 border border-gray-200">
+              <div className="px-3 py-2 bg-slate-700/50 rounded-lg text-sm text-gray-400 border border-slate-600">
                 <span className="font-medium">Category:</span> {problems.find(p => p.id === parseInt(values.problem_id))?.category}
               </div>
             )}
 
             <div>
-              <label htmlFor="status" className="block mb-2 font-medium text-gray-700">
+              <label htmlFor="status" className="block mb-2 font-medium text-gray-300">
                 Status
               </label>
               <Field
                 as="select"
                 name="status"
                 id="status"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg text-base bg-white focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all cursor-pointer"
+                className="w-full px-4 py-3 border border-slate-600 rounded-lg text-base bg-slate-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all cursor-pointer"
               >
                 <option value="Attempted">Attempted</option>
                 <option value="Completed">Completed</option>
                 <option value="Skipped">Skipped</option>
               </Field>
-              <ErrorMessage name="status" component="div" className="text-red-500 text-sm mt-1" />
+              <ErrorMessage name="status" component="div" className="text-red-400 text-sm mt-1" />
             </div>
 
             <div>
-              <label htmlFor="num_attempts" className="block mb-2 font-medium text-gray-700">
+              <label htmlFor="num_attempts" className="block mb-2 font-medium text-gray-300">
                 Number of Attempts
               </label>
               <Field
@@ -144,13 +144,13 @@ const AddProgressForm = ({ onSuccess, onCancel }) => {
                 name="num_attempts"
                 id="num_attempts"
                 min="1"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
+                className="w-full px-4 py-3 border border-slate-600 rounded-lg text-base bg-slate-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
               />
-              <ErrorMessage name="num_attempts" component="div" className="text-red-500 text-sm mt-1" />
+              <ErrorMessage name="num_attempts" component="div" className="text-red-400 text-sm mt-1" />
             </div>
 
             <div>
-              <label htmlFor="notes" className="block mb-2 font-medium text-gray-700">
+              <label htmlFor="notes" className="block mb-2 font-medium text-gray-300">
                 Notes (Optional)
               </label>
               <Field
@@ -158,17 +158,17 @@ const AddProgressForm = ({ onSuccess, onCancel }) => {
                 name="notes"
                 id="notes"
                 placeholder="Add your approach, learnings, or notes..."
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg text-base resize-y focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
+                className="w-full px-4 py-3 border border-slate-600 rounded-lg text-base bg-slate-700 text-white resize-y placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                 rows="4"
               />
-              <ErrorMessage name="notes" component="div" className="text-red-500 text-sm mt-1" />
+              <ErrorMessage name="notes" component="div" className="text-red-400 text-sm mt-1" />
             </div>
 
             <div className="flex gap-3 pt-2">
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="px-6 py-3 bg-green-500 text-white font-medium rounded-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                className="px-6 py-3 bg-blue-500 text-white font-medium rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-slate-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
               >
                 {isSubmitting ? 'Adding...' : 'Start Tracking'}
               </button>
@@ -176,7 +176,7 @@ const AddProgressForm = ({ onSuccess, onCancel }) => {
                 <button
                   type="button"
                   onClick={onCancel}
-                  className="px-6 py-3 bg-white text-gray-600 font-medium border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-300 transition-all"
+                  className="px-6 py-3 bg-slate-700 text-gray-300 font-medium border border-slate-600 rounded-lg hover:bg-slate-600 focus:outline-none focus:ring-2 focus:ring-slate-500 transition-all"
                 >
                   Cancel
                 </button>

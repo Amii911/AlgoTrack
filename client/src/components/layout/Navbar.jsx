@@ -24,16 +24,16 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="bg-white shadow-md py-4">
+      <nav className="bg-slate-900 border-b border-slate-700 py-4">
         <div className="max-w-6xl mx-auto px-8 flex justify-between items-center">
-          <Link to="/" className="text-2xl font-bold text-primary flex items-center gap-2 no-underline hover:no-underline">
+          <Link to="/" className="text-2xl font-bold text-blue-400 flex items-center gap-2 no-underline hover:no-underline">
             <span className="text-3xl">📊</span>
             AlgoTrack
           </Link>
 
           <ul className="flex items-center gap-6 list-none m-0 p-0">
             <li>
-              <Link to="/problems" className="text-gray-800 font-medium hover:text-primary no-underline">
+              <Link to="/problems" className="text-gray-200 font-medium hover:text-blue-400 no-underline">
                 Problems
               </Link>
             </li>
@@ -41,12 +41,12 @@ const Navbar = () => {
             {isAuthenticated ? (
               <>
                 <li>
-                  <Link to="/profile" className="text-gray-800 font-medium hover:text-primary no-underline">
+                  <Link to="/profile" className="text-gray-200 font-medium hover:text-blue-400 no-underline">
                     My Progress
                   </Link>
                 </li>
                 <li>
-                  <span className="text-gray-600 font-medium">Hi, {user?.user_name}!</span>
+                  <span className="text-gray-400 font-medium">Hi, {user?.user_name}!</span>
                 </li>
                 <li>
                   <button onClick={handleLogout} className="btn btn-outline">

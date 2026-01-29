@@ -2,15 +2,15 @@
 
 /* Custom theme configuration */
 @theme {
-  --color-primary: #4CAF50;
-  --color-primary-dark: #45a049;
-  --color-secondary: #667eea;
-  --color-secondary-dark: #764ba2;
+  --color-primary: #3B82F6;
+  --color-primary-dark: #2563EB;
+  --color-secondary: #0EA5E9;
+  --color-secondary-dark: #0284C7;
 }
 
 /* Base styles */
 body {
-  @apply bg-gray-100 text-gray-800 antialiased;
+  @apply bg-slate-950 text-gray-100 antialiased;
 }
 
 #root {
@@ -19,7 +19,7 @@ body {
 
 /* Form inputs */
 .form-input {
-  @apply w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-primary bg-white text-gray-800;
+  @apply w-full px-3 py-2 border border-slate-600 rounded focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 bg-slate-800 text-gray-100 placeholder:text-gray-400;
 }
 
 /* Buttons */
@@ -28,15 +28,15 @@ body {
 }
 
 .btn-primary {
-  @apply bg-primary text-white border border-primary hover:bg-primary-dark;
+  @apply bg-blue-500 text-white border border-blue-500 hover:bg-blue-600;
 }
 
 .btn-outline {
-  @apply bg-white text-primary border border-primary hover:bg-green-50;
+  @apply bg-transparent text-blue-400 border border-blue-500 hover:bg-blue-500/10;
 }
 
 .btn-secondary {
-  @apply bg-transparent text-white border-2 border-white hover:bg-white/10;
+  @apply bg-transparent text-white border-2 border-white/50 hover:bg-white/10;
 }
 
 /* Badges */
@@ -45,15 +45,15 @@ body {
 }
 
 .difficulty-badge.easy {
-  @apply bg-green-100 text-green-800;
+  @apply bg-green-500/20 text-green-400 border border-green-500/30;
 }
 
 .difficulty-badge.medium {
-  @apply bg-orange-100 text-orange-700;
+  @apply bg-orange-500/20 text-orange-400 border border-orange-500/30;
 }
 
 .difficulty-badge.hard {
-  @apply bg-red-100 text-red-800;
+  @apply bg-red-500/20 text-red-400 border border-red-500/30;
 }
 
 .status-badge {
@@ -61,17 +61,17 @@ body {
 }
 
 .status-badge.completed {
-  @apply bg-green-100 text-green-800;
+  @apply bg-green-500/20 text-green-400;
 }
 
 .status-badge.attempted {
-  @apply bg-orange-100 text-orange-700;
+  @apply bg-orange-500/20 text-orange-400;
 }
 
 .status-badge.skipped {
-  @apply bg-gray-100 text-gray-600;
+  @apply bg-slate-600/50 text-gray-400;
 }
 
 .category-badge {
-  @apply px-3 py-1 rounded-full text-xs bg-blue-100 text-blue-700;
+  @apply px-3 py-1 rounded-full text-xs bg-blue-500/20 text-blue-400 border border-blue-500/30;
 }

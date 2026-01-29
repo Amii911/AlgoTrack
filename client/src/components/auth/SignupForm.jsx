@@ -33,13 +33,13 @@ const PasswordRequirements = ({ password }) => {
   ];
 
   return (
-    <div className="bg-gray-50 rounded p-3 mt-2">
-      <p className="text-xs text-gray-600 font-medium mb-2">Password must have:</p>
+    <div className="bg-slate-700/50 rounded p-3 mt-2">
+      <p className="text-xs text-gray-400 font-medium mb-2">Password must have:</p>
       <ul className="list-none m-0 p-0 grid gap-1">
         {requirements.map((req, index) => (
           <li
             key={index}
-            className={`text-xs flex items-center gap-2 ${req.met ? 'text-green-600' : 'text-gray-400'}`}
+            className={`text-xs flex items-center gap-2 ${req.met ? 'text-green-400' : 'text-gray-500'}`}
           >
             <span className="font-bold w-4">{req.met ? '✓' : '•'}</span>
             {req.label}
@@ -98,10 +98,10 @@ const SignupForm = ({ onSuccess, onSwitchToLogin }) => {
 
   return (
     <div className="max-w-md mx-auto">
-      <h2 className="text-center mb-6 text-gray-800 text-2xl font-semibold">Create Your Account</h2>
+      <h2 className="text-center mb-6 text-white text-2xl font-semibold">Create Your Account</h2>
 
       {error && (
-        <div className="bg-red-50 text-red-600 p-3 rounded mb-4">
+        <div className="bg-red-500/20 text-red-400 p-3 rounded mb-4 border border-red-500/30">
           {error}
         </div>
       )}
@@ -119,7 +119,7 @@ const SignupForm = ({ onSuccess, onSwitchToLogin }) => {
         {({ isSubmitting }) => (
           <Form>
             <div className="mb-4">
-              <label htmlFor="user_name" className="block mb-2 font-medium text-gray-600">
+              <label htmlFor="user_name" className="block mb-2 font-medium text-gray-300">
                 Name
               </label>
               <Field
@@ -129,11 +129,11 @@ const SignupForm = ({ onSuccess, onSwitchToLogin }) => {
                 placeholder="Enter your name"
                 className="form-input"
               />
-              <ErrorMessage name="user_name" component="div" className="text-red-500 text-sm mt-1" />
+              <ErrorMessage name="user_name" component="div" className="text-red-400 text-sm mt-1" />
             </div>
 
             <div className="mb-4">
-              <label htmlFor="email" className="block mb-2 font-medium text-gray-600">
+              <label htmlFor="email" className="block mb-2 font-medium text-gray-300">
                 Email
               </label>
               <Field
@@ -143,11 +143,11 @@ const SignupForm = ({ onSuccess, onSwitchToLogin }) => {
                 placeholder="Enter your email"
                 className="form-input"
               />
-              <ErrorMessage name="email" component="div" className="text-red-500 text-sm mt-1" />
+              <ErrorMessage name="email" component="div" className="text-red-400 text-sm mt-1" />
             </div>
 
             <div className="mb-4">
-              <label htmlFor="password" className="block mb-2 font-medium text-gray-600">
+              <label htmlFor="password" className="block mb-2 font-medium text-gray-300">
                 Password
               </label>
               <Field
@@ -159,11 +159,11 @@ const SignupForm = ({ onSuccess, onSwitchToLogin }) => {
                 onKeyUp={(e) => setPasswordValue(e.target.value)}
               />
               <PasswordRequirements password={passwordValue} />
-              <ErrorMessage name="password" component="div" className="text-red-500 text-sm mt-1" />
+              <ErrorMessage name="password" component="div" className="text-red-400 text-sm mt-1" />
             </div>
 
             <div className="mb-4">
-              <label htmlFor="confirmPassword" className="block mb-2 font-medium text-gray-600">
+              <label htmlFor="confirmPassword" className="block mb-2 font-medium text-gray-300">
                 Confirm Password
               </label>
               <Field
@@ -173,7 +173,7 @@ const SignupForm = ({ onSuccess, onSwitchToLogin }) => {
                 placeholder="Confirm your password"
                 className="form-input"
               />
-              <ErrorMessage name="confirmPassword" component="div" className="text-red-500 text-sm mt-1" />
+              <ErrorMessage name="confirmPassword" component="div" className="text-red-400 text-sm mt-1" />
             </div>
 
             <button
@@ -189,10 +189,10 @@ const SignupForm = ({ onSuccess, onSwitchToLogin }) => {
 
       <div className="relative my-6">
         <div className="absolute inset-0 flex items-center">
-          <div className="w-full border-t border-gray-300"></div>
+          <div className="w-full border-t border-slate-600"></div>
         </div>
         <div className="relative flex justify-center text-sm">
-          <span className="px-4 bg-white text-gray-500">or</span>
+          <span className="px-4 bg-slate-800 text-gray-400">or</span>
         </div>
       </div>
 
@@ -200,7 +200,7 @@ const SignupForm = ({ onSuccess, onSwitchToLogin }) => {
         type="button"
         onClick={handleGoogleSignup}
         disabled={isGoogleLoading}
-        className="w-full py-3 px-4 border border-gray-300 rounded-lg flex items-center justify-center gap-3 bg-white hover:bg-gray-50 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+        className="w-full py-3 px-4 border border-slate-600 rounded-lg flex items-center justify-center gap-3 bg-slate-700 hover:bg-slate-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
       >
         <svg className="w-5 h-5" viewBox="0 0 24 24">
           <path
@@ -220,15 +220,15 @@ const SignupForm = ({ onSuccess, onSwitchToLogin }) => {
             d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
           />
         </svg>
-        <span className="font-medium text-gray-700">
+        <span className="font-medium text-gray-200">
           {isGoogleLoading ? 'Connecting...' : 'Continue with Google'}
         </span>
       </button>
 
       <div className="text-center mt-6">
-        <p className="text-gray-600">
+        <p className="text-gray-400">
           Already have an account?{' '}
-          <button onClick={onSwitchToLogin} className="text-primary underline bg-transparent border-none cursor-pointer">
+          <button onClick={onSwitchToLogin} className="text-blue-400 underline bg-transparent border-none cursor-pointer">
             Login
           </button>
         </p>

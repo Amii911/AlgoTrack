@@ -15,7 +15,7 @@ const Home = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-indigo-500 to-purple-600 text-white py-16 px-8 text-center">
+      <section className="bg-gradient-to-br from-blue-600 to-cyan-600 text-white py-16 px-8 text-center">
         <div className="max-w-3xl mx-auto">
           <h1 className="text-5xl font-bold mb-4">AlgoTrack</h1>
           <p className="text-2xl mb-4 opacity-95">
@@ -30,7 +30,7 @@ const Home = () => {
             <div className="flex gap-4 justify-center flex-wrap">
               <button
                 onClick={() => handleAuthClick('signup')}
-                className="px-8 py-4 bg-white text-indigo-600 rounded-lg text-lg font-semibold hover:-translate-y-0.5 hover:shadow-lg transition-all"
+                className="px-8 py-4 bg-white text-blue-600 rounded-lg text-lg font-semibold hover:-translate-y-0.5 hover:shadow-lg transition-all"
               >
                 Get Started
               </button>
@@ -52,7 +52,7 @@ const Home = () => {
 
       {/* Features Section */}
       <section className="py-16 px-8 max-w-6xl mx-auto">
-        <h2 className="text-4xl font-bold text-center mb-12 text-gray-800">Features</h2>
+        <h2 className="text-4xl font-bold text-center mb-12 text-white">Features</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {[
             { icon: '📊', title: 'Track Your Progress', desc: 'Monitor your problem-solving journey with detailed statistics and completion rates.' },
@@ -64,19 +64,19 @@ const Home = () => {
           ].map((feature, index) => (
             <div
               key={index}
-              className="bg-white p-8 rounded-xl shadow-md text-center hover:-translate-y-2 hover:shadow-xl transition-all"
+              className="bg-slate-800 p-8 rounded-xl border border-slate-700 text-center hover:-translate-y-2 hover:shadow-xl hover:border-blue-500/50 transition-all"
             >
               <div className="text-5xl mb-4">{feature.icon}</div>
-              <h3 className="text-xl font-semibold mb-3 text-gray-800">{feature.title}</h3>
-              <p className="text-gray-600 leading-relaxed">{feature.desc}</p>
+              <h3 className="text-xl font-semibold mb-3 text-white">{feature.title}</h3>
+              <p className="text-gray-400 leading-relaxed">{feature.desc}</p>
             </div>
           ))}
         </div>
       </section>
 
       {/* How It Works Section */}
-      <section className="bg-gray-50 py-16 px-8">
-        <h2 className="text-4xl font-bold text-center mb-12 text-gray-800">How It Works</h2>
+      <section className="bg-slate-900 py-16 px-8">
+        <h2 className="text-4xl font-bold text-center mb-12 text-white">How It Works</h2>
         <div className="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {[
             { num: 1, title: 'Create an Account', desc: 'Sign up with your email or use Google OAuth to get started quickly.' },
@@ -85,11 +85,11 @@ const Home = () => {
             { num: 4, title: 'Monitor Progress', desc: 'View your statistics and track your improvement over time.' },
           ].map((step, index) => (
             <div key={index} className="text-center">
-              <div className="w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-600 text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">
+              <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-500 text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">
                 {step.num}
               </div>
-              <h3 className="text-xl font-semibold mb-2 text-gray-800">{step.title}</h3>
-              <p className="text-gray-600 leading-relaxed">{step.desc}</p>
+              <h3 className="text-xl font-semibold mb-2 text-white">{step.title}</h3>
+              <p className="text-gray-400 leading-relaxed">{step.desc}</p>
             </div>
           ))}
         </div>
