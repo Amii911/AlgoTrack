@@ -58,12 +58,12 @@ const Navbar = () => {
               <>
                 <li>
                   <button onClick={handleLoginClick} className="btn btn-outline">
-                    Login
+                    Log In
                   </button>
                 </li>
                 <li>
                   <button onClick={handleSignupClick} className="btn btn-primary">
-                    Sign Up
+                    Sign In
                   </button>
                 </li>
               </>

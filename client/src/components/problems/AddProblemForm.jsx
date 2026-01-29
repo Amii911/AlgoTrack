@@ -35,11 +35,11 @@ const AddProblemForm = ({ onSuccess, onCancel }) => {
   };
 
   return (
-    <div className="add-problem-form">
-      <h3>Add New Problem</h3>
+    <div className="bg-white p-6 md:p-8 rounded-xl shadow-lg border border-gray-100">
+      <h3 className="mt-0 mb-6 text-xl font-semibold text-gray-800">Add New Problem</h3>
 
       {error && (
-        <div className="error-message">
+        <div className="bg-red-50 text-red-700 px-4 py-3 rounded-lg mb-4 border border-red-200">
           {error}
         </div>
       )}
@@ -55,59 +55,72 @@ const AddProblemForm = ({ onSuccess, onCancel }) => {
         onSubmit={handleSubmit}
       >
         {({ isSubmitting }) => (
-          <Form>
-            <div className="form-group">
-              <label htmlFor="problem_name">Problem Name</label>
+          <Form className="space-y-5">
+            <div>
+              <label htmlFor="problem_name" className="block mb-2 font-medium text-gray-700">
+                Problem Name
+              </label>
               <Field
                 type="text"
                 name="problem_name"
                 id="problem_name"
                 placeholder="e.g., Two Sum"
-                className="form-input"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
               />
-              <ErrorMessage name="problem_name" component="div" className="field-error" />
+              <ErrorMessage name="problem_name" component="div" className="text-red-500 text-sm mt-1" />
             </div>
 
-            <div className="form-group">
-              <label htmlFor="problem_link">Problem Link (LeetCode URL)</label>
+            <div>
+              <label htmlFor="problem_link" className="block mb-2 font-medium text-gray-700">
+                Problem Link (LeetCode URL)
+              </label>
               <Field
                 type="url"
                 name="problem_link"
                 id="problem_link"
                 placeholder="https://leetcode.com/problems/..."
-                className="form-input"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
               />
-              <ErrorMessage name="problem_link" component="div" className="field-error" />
+              <ErrorMessage name="problem_link" component="div" className="text-red-500 text-sm mt-1" />
             </div>
 
-            <div className="form-group">
-              <label htmlFor="difficulty">Difficulty</label>
-              <Field as="select" name="difficulty" id="difficulty" className="form-input">
+            <div>
+              <label htmlFor="difficulty" className="block mb-2 font-medium text-gray-700">
+                Difficulty
+              </label>
+              <Field
+                as="select"
+                name="difficulty"
+                id="difficulty"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg text-base bg-white focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all cursor-pointer"
+              >
                 <option value="">Select difficulty</option>
                 <option value="Easy">Easy</option>
                 <option value="Medium">Medium</option>
                 <option value="Hard">Hard</option>
               </Field>
-              <ErrorMessage name="difficulty" component="div" className="field-error" />
+              <ErrorMessage name="difficulty" component="div" className="text-red-500 text-sm mt-1" />
             </div>
 
-            <div className="form-group">
-              <label htmlFor="category">Category</label>
+            <div>
+              <label htmlFor="category" className="block mb-2 font-medium text-gray-700">
+                Category
+              </label>
               <Field
                 type="text"
                 name="category"
                 id="category"
                 placeholder="e.g., Arrays, Strings, Trees"
-                className="form-input"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
               />
-              <ErrorMessage name="category" component="div" className="field-error" />
+              <ErrorMessage name="category" component="div" className="text-red-500 text-sm mt-1" />
             </div>
 
-            <div className="form-actions">
+            <div className="flex gap-3 pt-2">
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="btn btn-primary"
+                className="px-6 py-3 bg-green-500 text-white font-medium rounded-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
               >
                 {isSubmitting ? 'Adding...' : 'Add Problem'}
               </button>
@@ -115,7 +128,7 @@ const AddProblemForm = ({ onSuccess, onCancel }) => {
                 <button
                   type="button"
                   onClick={onCancel}
-                  className="btn btn-secondary"
+                  className="px-6 py-3 bg-white text-gray-600 font-medium border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-300 transition-all"
                 >
                   Cancel
                 </button>
@@ -124,98 +137,6 @@ const AddProblemForm = ({ onSuccess, onCancel }) => {
           </Form>
         )}
       </Formik>
-
-      <style jsx>{`
-        .add-problem-form {
-          background: white;
-          padding: 2rem;
-          border-radius: 8px;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        h3 {
-          margin-top: 0;
-          margin-bottom: 1.5rem;
-          color: #333;
-        }
-
-        .error-message {
-          background: #ffebee;
-          color: #c62828;
-          padding: 0.75rem;
-          border-radius: 4px;
-          margin-bottom: 1rem;
-        }
-
-        .form-group {
-          margin-bottom: 1rem;
-        }
-
-        label {
-          display: block;
-          margin-bottom: 0.5rem;
-          font-weight: 500;
-          color: #555;
-        }
-
-        .form-input {
-          width: 100%;
-          padding: 0.75rem;
-          border: 1px solid #ddd;
-          border-radius: 4px;
-          font-size: 1rem;
-        }
-
-        .form-input:focus {
-          outline: none;
-          border-color: #4CAF50;
-        }
-
-        .field-error {
-          color: #f44336;
-          font-size: 0.875rem;
-          margin-top: 0.25rem;
-        }
-
-        .form-actions {
-          display: flex;
-          gap: 1rem;
-          margin-top: 1.5rem;
-        }
-
-        .btn {
-          padding: 0.75rem 1.5rem;
-          border: none;
-          border-radius: 4px;
-          font-size: 1rem;
-          cursor: pointer;
-          transition: all 0.2s;
-        }
-
-        .btn-primary {
-          background: #4CAF50;
-          color: white;
-        }
-
-        .btn-primary:hover:not(:disabled) {
-          background: #45a049;
-        }
-
-        .btn-secondary {
-          background: #fff;
-          color: #666;
-          border: 1px solid #ddd;
-        }
-
-        .btn-secondary:hover {
-          background: #f5f5f5;
-        }
-
-        .btn:disabled {
-          opacity: 0.6;
-          cursor: not-allowed;
-        }
-      `}</style>
     </div>
   );
 };

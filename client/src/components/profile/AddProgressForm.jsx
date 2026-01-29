@@ -63,15 +63,19 @@ const AddProgressForm = ({ onSuccess, onCancel }) => {
   };
 
   if (loading) {
-    return <div className="loading">Loading problems...</div>;
+    return (
+      <div className="text-center py-8 text-gray-500">
+        <div className="animate-pulse">Loading problems...</div>
+      </div>
+    );
   }
 
   return (
-    <div className="add-progress-form">
-      <h3>Start Tracking a Problem</h3>
+    <div className="bg-white p-6 md:p-8 rounded-xl shadow-lg border border-gray-100">
+      <h3 className="mt-0 mb-6 text-xl font-semibold text-gray-800">Start Tracking a Problem</h3>
 
       {error && (
-        <div className="error-message">
+        <div className="bg-red-50 text-red-700 px-4 py-3 rounded-lg mb-4 border border-red-200">
           {error}
         </div>
       )}
@@ -87,14 +91,16 @@ const AddProgressForm = ({ onSuccess, onCancel }) => {
         onSubmit={handleSubmit}
       >
         {({ isSubmitting, values }) => (
-          <Form>
-            <div className="form-group">
-              <label htmlFor="problem_id">Select Problem</label>
+          <Form className="space-y-5">
+            <div>
+              <label htmlFor="problem_id" className="block mb-2 font-medium text-gray-700">
+                Select Problem
+              </label>
               <Field
                 as="select"
                 name="problem_id"
                 id="problem_id"
-                className="form-input"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg text-base bg-white focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all cursor-pointer"
               >
                 <option value="">Choose a problem...</option>
                 {problems.map((problem) => (
@@ -103,55 +109,66 @@ const AddProgressForm = ({ onSuccess, onCancel }) => {
                   </option>
                 ))}
               </Field>
-              <ErrorMessage name="problem_id" component="div" className="field-error" />
+              <ErrorMessage name="problem_id" component="div" className="text-red-500 text-sm mt-1" />
             </div>
 
             {values.problem_id && (
-              <div className="problem-preview">
-                {problems.find(p => p.id === parseInt(values.problem_id))?.category}
+              <div className="px-3 py-2 bg-gray-50 rounded-lg text-sm text-gray-600 border border-gray-200">
+                <span className="font-medium">Category:</span> {problems.find(p => p.id === parseInt(values.problem_id))?.category}
               </div>
             )}
 
-            <div className="form-group">
-              <label htmlFor="status">Status</label>
-              <Field as="select" name="status" id="status" className="form-input">
+            <div>
+              <label htmlFor="status" className="block mb-2 font-medium text-gray-700">
+                Status
+              </label>
+              <Field
+                as="select"
+                name="status"
+                id="status"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg text-base bg-white focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all cursor-pointer"
+              >
                 <option value="Attempted">Attempted</option>
                 <option value="Completed">Completed</option>
                 <option value="Skipped">Skipped</option>
               </Field>
-              <ErrorMessage name="status" component="div" className="field-error" />
+              <ErrorMessage name="status" component="div" className="text-red-500 text-sm mt-1" />
             </div>
 
-            <div className="form-group">
-              <label htmlFor="num_attempts">Number of Attempts</label>
+            <div>
+              <label htmlFor="num_attempts" className="block mb-2 font-medium text-gray-700">
+                Number of Attempts
+              </label>
               <Field
                 type="number"
                 name="num_attempts"
                 id="num_attempts"
                 min="1"
-                className="form-input"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
               />
-              <ErrorMessage name="num_attempts" component="div" className="field-error" />
+              <ErrorMessage name="num_attempts" component="div" className="text-red-500 text-sm mt-1" />
             </div>
 
-            <div className="form-group">
-              <label htmlFor="notes">Notes (Optional)</label>
+            <div>
+              <label htmlFor="notes" className="block mb-2 font-medium text-gray-700">
+                Notes (Optional)
+              </label>
               <Field
                 as="textarea"
                 name="notes"
                 id="notes"
                 placeholder="Add your approach, learnings, or notes..."
-                className="form-textarea"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg text-base resize-y focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
                 rows="4"
               />
-              <ErrorMessage name="notes" component="div" className="field-error" />
+              <ErrorMessage name="notes" component="div" className="text-red-500 text-sm mt-1" />
             </div>
 
-            <div className="form-actions">
+            <div className="flex gap-3 pt-2">
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="btn btn-primary"
+                className="px-6 py-3 bg-green-500 text-white font-medium rounded-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
               >
                 {isSubmitting ? 'Adding...' : 'Start Tracking'}
               </button>
@@ -159,7 +176,7 @@ const AddProgressForm = ({ onSuccess, onCancel }) => {
                 <button
                   type="button"
                   onClick={onCancel}
-                  className="btn btn-secondary"
+                  className="px-6 py-3 bg-white text-gray-600 font-medium border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-300 transition-all"
                 >
                   Cancel
                 </button>
@@ -168,115 +185,6 @@ const AddProgressForm = ({ onSuccess, onCancel }) => {
           </Form>
         )}
       </Formik>
-
-      <style jsx>{`
-        .add-progress-form {
-          background: white;
-          padding: 2rem;
-          border-radius: 8px;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        h3 {
-          margin-top: 0;
-          margin-bottom: 1.5rem;
-          color: #333;
-        }
-
-        .loading {
-          text-align: center;
-          padding: 2rem;
-          color: #666;
-        }
-
-        .error-message {
-          background: #ffebee;
-          color: #c62828;
-          padding: 0.75rem;
-          border-radius: 4px;
-          margin-bottom: 1rem;
-        }
-
-        .problem-preview {
-          padding: 0.5rem;
-          background: #f5f5f5;
-          border-radius: 4px;
-          margin-bottom: 1rem;
-          font-size: 0.875rem;
-          color: #666;
-        }
-
-        .form-group {
-          margin-bottom: 1rem;
-        }
-
-        label {
-          display: block;
-          margin-bottom: 0.5rem;
-          font-weight: 500;
-          color: #555;
-        }
-
-        .form-input,
-        .form-textarea {
-          width: 100%;
-          padding: 0.75rem;
-          border: 1px solid #ddd;
-          border-radius: 4px;
-          font-size: 1rem;
-        }
-
-        .form-input:focus,
-        .form-textarea:focus {
-          outline: none;
-          border-color: #4CAF50;
-        }
-
-        .field-error {
-          color: #f44336;
-          font-size: 0.875rem;
-          margin-top: 0.25rem;
-        }
-
-        .form-actions {
-          display: flex;
-          gap: 1rem;
-          margin-top: 1.5rem;
-        }
-
-        .btn {
-          padding: 0.75rem 1.5rem;
-          border: none;
-          border-radius: 4px;
-          font-size: 1rem;
-          cursor: pointer;
-          transition: all 0.2s;
-        }
-
-        .btn-primary {
-          background: #4CAF50;
-          color: white;
-        }
-
-        .btn-primary:hover:not(:disabled) {
-          background: #45a049;
-        }
-
-        .btn-secondary {
-          background: #fff;
-          color: #666;
-          border: 1px solid #ddd;
-        }
-
-        .btn-secondary:hover {
-          background: #f5f5f5;
-        }
-
-        .btn:disabled {
-          opacity: 0.6;
-          cursor: not-allowed;
-        }
-      `}</style>
     </div>
   );
 };

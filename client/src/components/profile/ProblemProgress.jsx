@@ -10,16 +10,29 @@ const ProblemProgress = ({ userProblem, problemDetails, onUpdate, onDelete }) =>
   });
   const [loading, setLoading] = useState(false);
 
-  const getStatusColor = (status) => {
+  const getStatusClasses = (status) => {
     switch (status?.toLowerCase()) {
       case 'completed':
-        return '#4CAF50';
+        return 'bg-green-500 text-white';
       case 'attempted':
-        return '#FF9800';
+        return 'bg-orange-500 text-white';
       case 'skipped':
-        return '#9E9E9E';
+        return 'bg-gray-400 text-white';
       default:
-        return '#2196F3';
+        return 'bg-blue-500 text-white';
+    }
+  };
+
+  const getDifficultyClasses = (difficulty) => {
+    switch (difficulty?.toLowerCase()) {
+      case 'easy':
+        return 'text-green-600 bg-green-50';
+      case 'medium':
+        return 'text-orange-600 bg-orange-50';
+      case 'hard':
+        return 'text-red-600 bg-red-50';
+      default:
+        return 'text-gray-600 bg-gray-50';
     }
   };
 
@@ -60,36 +73,44 @@ const ProblemProgress = ({ userProblem, problemDetails, onUpdate, onDelete }) =>
   };
 
   return (
-    <div className="progress-card">
-      <div className="progress-header">
-        <div className="problem-info">
-          <h3>
+    <div className="bg-white border border-gray-200 rounded-xl p-5 mb-4 shadow-sm hover:shadow-md transition-shadow">
+      <div className="flex justify-between items-start mb-4">
+        <div className="flex-1 min-w-0">
+          <h3 className="m-0 mb-2 text-lg font-semibold">
             <a
               href={problemDetails?.problem_link}
               target="_blank"
               rel="noopener noreferrer"
+              className="text-gray-800 no-underline hover:text-green-600 transition-colors"
             >
               {problemDetails?.problem_name || 'Problem'}
             </a>
           </h3>
-          <div className="meta-info">
-            <span className="difficulty">{problemDetails?.difficulty}</span>
-            <span className="category">{problemDetails?.category}</span>
+          <div className="flex gap-2 flex-wrap text-sm">
+            <span className={`px-2 py-1 rounded-md font-medium ${getDifficultyClasses(problemDetails?.difficulty)}`}>
+              {problemDetails?.difficulty}
+            </span>
+            <span className="px-2 py-1 rounded-md bg-gray-100 text-gray-600">
+              {problemDetails?.category}
+            </span>
           </div>
         </div>
-        <button onClick={() => setIsEditing(!isEditing)} className="btn-edit">
+        <button
+          onClick={() => setIsEditing(!isEditing)}
+          className="ml-4 px-4 py-2 bg-transparent border border-gray-300 rounded-lg text-sm font-medium text-gray-600 hover:border-green-500 hover:text-green-600 transition-all"
+        >
           {isEditing ? 'Cancel' : 'Edit'}
         </button>
       </div>
 
       {isEditing ? (
-        <div className="edit-form">
-          <div className="form-group">
-            <label>Status</label>
+        <div className="mt-4 pt-4 border-t border-gray-100 space-y-4">
+          <div>
+            <label className="block mb-2 font-medium text-gray-700">Status</label>
             <select
               value={formData.status}
               onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-              className="form-input"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg text-base bg-white focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all cursor-pointer"
             >
               <option value="Attempted">Attempted</option>
               <option value="Completed">Completed</option>
@@ -97,8 +118,8 @@ const ProblemProgress = ({ userProblem, problemDetails, onUpdate, onDelete }) =>
             </select>
           </div>
 
-          <div className="form-group">
-            <label>Number of Attempts</label>
+          <div>
+            <label className="block mb-2 font-medium text-gray-700">Number of Attempts</label>
             <input
               type="number"
               min="1"
@@ -106,210 +127,61 @@ const ProblemProgress = ({ userProblem, problemDetails, onUpdate, onDelete }) =>
               onChange={(e) =>
                 setFormData({ ...formData, num_attempts: parseInt(e.target.value) })
               }
-              className="form-input"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
             />
           </div>
 
-          <div className="form-group">
-            <label>Notes</label>
+          <div>
+            <label className="block mb-2 font-medium text-gray-700">Notes</label>
             <textarea
               value={formData.notes}
               onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
               placeholder="Add your notes, approach, or learnings..."
-              className="form-textarea"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg text-base resize-y focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
               rows="4"
             />
           </div>
 
-          <div className="form-actions">
+          <div className="flex gap-3 pt-2">
             <button
               onClick={handleUpdate}
               disabled={loading}
-              className="btn btn-primary"
+              className="px-5 py-2.5 bg-green-500 text-white font-medium rounded-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
             >
               {loading ? 'Saving...' : 'Save Changes'}
             </button>
-            <button onClick={handleDelete} disabled={loading} className="btn btn-danger">
+            <button
+              onClick={handleDelete}
+              disabled={loading}
+              className="px-5 py-2.5 bg-red-500 text-white font-medium rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+            >
               Delete
             </button>
           </div>
         </div>
       ) : (
-        <div className="progress-details">
-          <div className="status-badge" style={{ backgroundColor: getStatusColor(userProblem.status) }}>
+        <div className="mt-4">
+          <span className={`inline-block px-3 py-1.5 rounded-lg font-semibold text-sm mb-4 ${getStatusClasses(userProblem.status)}`}>
             {userProblem.status}
-          </div>
-          <div className="detail-row">
-            <span className="label">Attempts:</span>
-            <span className="value">{userProblem.num_attempts}</span>
-          </div>
-          <div className="detail-row">
-            <span className="label">Date:</span>
-            <span className="value">{userProblem.date_attempted}</span>
+          </span>
+          <div className="grid grid-cols-2 gap-3 text-sm">
+            <div className="bg-gray-50 rounded-lg p-3">
+              <span className="block text-gray-500 text-xs uppercase tracking-wide mb-1">Attempts</span>
+              <span className="text-gray-800 font-semibold">{userProblem.num_attempts}</span>
+            </div>
+            <div className="bg-gray-50 rounded-lg p-3">
+              <span className="block text-gray-500 text-xs uppercase tracking-wide mb-1">Date</span>
+              <span className="text-gray-800 font-semibold">{userProblem.date_attempted}</span>
+            </div>
           </div>
           {userProblem.notes && (
-            <div className="notes-section">
-              <span className="label">Notes:</span>
-              <p className="notes-text">{userProblem.notes}</p>
+            <div className="mt-4 pt-4 border-t border-gray-100">
+              <span className="block text-gray-500 text-xs uppercase tracking-wide mb-2">Notes</span>
+              <p className="m-0 text-gray-600 leading-relaxed whitespace-pre-wrap">{userProblem.notes}</p>
             </div>
           )}
         </div>
       )}
-
-      <style jsx>{`
-        .progress-card {
-          background: white;
-          border: 1px solid #e0e0e0;
-          border-radius: 8px;
-          padding: 1.5rem;
-          margin-bottom: 1rem;
-        }
-
-        .progress-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: start;
-          margin-bottom: 1rem;
-        }
-
-        .problem-info h3 {
-          margin: 0 0 0.5rem 0;
-          font-size: 1.125rem;
-        }
-
-        .problem-info h3 a {
-          color: #333;
-          text-decoration: none;
-        }
-
-        .problem-info h3 a:hover {
-          color: #4CAF50;
-        }
-
-        .meta-info {
-          display: flex;
-          gap: 0.75rem;
-          font-size: 0.875rem;
-        }
-
-        .difficulty,
-        .category {
-          color: #666;
-        }
-
-        .btn-edit {
-          background: none;
-          border: 1px solid #ddd;
-          padding: 0.5rem 1rem;
-          border-radius: 4px;
-          cursor: pointer;
-          transition: all 0.2s;
-        }
-
-        .btn-edit:hover {
-          border-color: #4CAF50;
-          color: #4CAF50;
-        }
-
-        .progress-details {
-          margin-top: 1rem;
-        }
-
-        .status-badge {
-          display: inline-block;
-          padding: 0.5rem 1rem;
-          border-radius: 4px;
-          color: white;
-          font-weight: 600;
-          margin-bottom: 1rem;
-        }
-
-        .detail-row {
-          margin-bottom: 0.5rem;
-        }
-
-        .label {
-          font-weight: 600;
-          color: #555;
-          margin-right: 0.5rem;
-        }
-
-        .value {
-          color: #666;
-        }
-
-        .notes-section {
-          margin-top: 1rem;
-          padding-top: 1rem;
-          border-top: 1px solid #eee;
-        }
-
-        .notes-text {
-          margin: 0.5rem 0 0 0;
-          color: #666;
-          line-height: 1.6;
-        }
-
-        .edit-form {
-          margin-top: 1rem;
-        }
-
-        .form-group {
-          margin-bottom: 1rem;
-        }
-
-        .form-input,
-        .form-textarea {
-          width: 100%;
-          padding: 0.75rem;
-          border: 1px solid #ddd;
-          border-radius: 4px;
-          font-size: 1rem;
-        }
-
-        .form-input:focus,
-        .form-textarea:focus {
-          outline: none;
-          border-color: #4CAF50;
-        }
-
-        .form-actions {
-          display: flex;
-          gap: 0.5rem;
-          margin-top: 1rem;
-        }
-
-        .btn {
-          padding: 0.75rem 1.5rem;
-          border: none;
-          border-radius: 4px;
-          cursor: pointer;
-          transition: background 0.2s;
-        }
-
-        .btn-primary {
-          background: #4CAF50;
-          color: white;
-        }
-
-        .btn-primary:hover:not(:disabled) {
-          background: #45a049;
-        }
-
-        .btn-danger {
-          background: #f44336;
-          color: white;
-        }
-
-        .btn-danger:hover:not(:disabled) {
-          background: #d32f2f;
-        }
-
-        .btn:disabled {
-          opacity: 0.6;
-          cursor: not-allowed;
-        }
-      `}</style>
     </div>
   );
 };

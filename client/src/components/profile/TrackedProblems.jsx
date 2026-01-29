@@ -66,13 +66,13 @@ const TrackedProblems = () => {
   });
 
   if (loading) {
-    return <div className="loading">Loading tracked problems...</div>;
+    return <div className="text-center py-12 text-gray-600 bg-white rounded-lg shadow-md">Loading tracked problems...</div>;
   }
 
   if (error) {
     return (
-      <div className="error-container">
-        <p className="error-text">{error}</p>
+      <div className="text-center py-12 bg-white rounded-lg shadow-md">
+        <p className="text-red-500 mb-4">{error}</p>
         <button onClick={fetchTrackedProblems} className="btn btn-primary">
           Try Again
         </button>
@@ -81,9 +81,9 @@ const TrackedProblems = () => {
   }
 
   return (
-    <div className="tracked-problems">
-      <div className="header">
-        <h2>Tracked Problems</h2>
+    <div className="mb-8">
+      <div className="flex justify-between items-center mb-8 flex-wrap gap-4">
+        <h2 className="text-2xl font-bold text-gray-800 m-0">Tracked Problems</h2>
         <button
           onClick={() => setShowAddForm(!showAddForm)}
           className="btn btn-primary"
@@ -93,7 +93,7 @@ const TrackedProblems = () => {
       </div>
 
       {showAddForm && (
-        <div className="add-form-section">
+        <div className="mb-8">
           <AddProgressForm
             onSuccess={handleAddSuccess}
             onCancel={() => setShowAddForm(false)}
@@ -101,14 +101,18 @@ const TrackedProblems = () => {
         </div>
       )}
 
-      <div className="filters">
-        <div className="filter-label">Filter by Status:</div>
-        <div className="filter-buttons">
+      <div className="bg-white p-6 rounded-lg mb-6 shadow-md">
+        <div className="font-semibold mb-3 text-gray-600">Filter by Status:</div>
+        <div className="flex gap-2 flex-wrap">
           {['All', 'Attempted', 'Completed', 'Skipped'].map((status) => (
             <button
               key={status}
               onClick={() => setFilterStatus(status)}
-              className={`filter-btn ${filterStatus === status ? 'active' : ''}`}
+              className={`px-4 py-2 border rounded text-sm cursor-pointer transition-all ${
+                filterStatus === status
+                  ? 'bg-primary text-white border-primary'
+                  : 'bg-white text-gray-700 border-gray-300 hover:border-primary hover:text-primary'
+              }`}
             >
               {status}
             </button>
@@ -117,7 +121,7 @@ const TrackedProblems = () => {
       </div>
 
       {filteredProblems.length === 0 ? (
-        <div className="no-problems">
+        <div className="text-center py-12 text-gray-600 bg-white rounded-lg shadow-md">
           <p>
             {userProblems.length === 0
               ? "You haven't tracked any problems yet. Start tracking to see your progress!"
@@ -125,8 +129,8 @@ const TrackedProblems = () => {
           </p>
         </div>
       ) : (
-        <div className="problems-list">
-          <div className="list-header">
+        <div className="flex flex-col">
+          <div className="mb-4 text-gray-600 text-sm">
             Showing {filteredProblems.length} of {userProblems.length} problems
           </div>
           {filteredProblems.map((userProblem) => {
@@ -143,134 +147,6 @@ const TrackedProblems = () => {
           })}
         </div>
       )}
-
-      <style jsx>{`
-        .tracked-problems {
-          margin-bottom: 2rem;
-        }
-
-        .header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-bottom: 2rem;
-        }
-
-        h2 {
-          margin: 0;
-          color: #333;
-        }
-
-        .btn-primary {
-          background: #4CAF50;
-          color: white;
-          border: none;
-          padding: 0.75rem 1.5rem;
-          border-radius: 4px;
-          cursor: pointer;
-          transition: background 0.2s;
-          font-size: 1rem;
-        }
-
-        .btn-primary:hover {
-          background: #45a049;
-        }
-
-        .add-form-section {
-          margin-bottom: 2rem;
-        }
-
-        .filters {
-          background: white;
-          padding: 1rem 1.5rem;
-          border-radius: 8px;
-          margin-bottom: 1.5rem;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .filter-label {
-          font-weight: 600;
-          margin-bottom: 0.75rem;
-          color: #555;
-        }
-
-        .filter-buttons {
-          display: flex;
-          gap: 0.5rem;
-          flex-wrap: wrap;
-        }
-
-        .filter-btn {
-          padding: 0.5rem 1rem;
-          border: 1px solid #ddd;
-          background: white;
-          border-radius: 4px;
-          cursor: pointer;
-          transition: all 0.2s;
-          font-size: 0.875rem;
-        }
-
-        .filter-btn:hover {
-          border-color: #4CAF50;
-          color: #4CAF50;
-        }
-
-        .filter-btn.active {
-          background: #4CAF50;
-          color: white;
-          border-color: #4CAF50;
-        }
-
-        .list-header {
-          margin-bottom: 1rem;
-          color: #666;
-          font-size: 0.875rem;
-        }
-
-        .problems-list {
-          display: flex;
-          flex-direction: column;
-        }
-
-        .loading,
-        .no-problems {
-          text-align: center;
-          padding: 3rem;
-          color: #666;
-          background: white;
-          border-radius: 8px;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .error-container {
-          text-align: center;
-          padding: 3rem;
-          background: white;
-          border-radius: 8px;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .error-text {
-          color: #f44336;
-          margin-bottom: 1rem;
-        }
-
-        @media (max-width: 768px) {
-          .header {
-            flex-direction: column;
-            align-items: stretch;
-            gap: 1rem;
-          }
-
-          .filter-buttons {
-            flex-direction: column;
-          }
-
-          .filter-btn {
-            width: 100%;
-          }
-        }
-      `}</style>
     </div>
   );
 };
